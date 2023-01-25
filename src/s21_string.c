@@ -3,17 +3,17 @@
 int main() {
   char *src = "Take the test.";
   char dst[14 + 1]; 
-  printf("%s\n", strncpy(dst, src, 10));
+  // printf("%s\n", strncpy(dst, src, 10));
   dst[0] = 'M';
   dst[4] = '\0';
-  printf("%s\n", dst);
-  printf("%d", strlen(dst));
+  // printf("%s\n", dst);
+  // printf("%d", strlen(dst));
   const char *string = "abcde312$#@";
   const char *invalid = "*$#";
-  // size_t valid_len = strcspn(string, invalid);
-  // if(valid_len != strlen(string))
-  // printf("'%s' contains invalid chars starting at position %zu\n",
-  //              string, valid_len);
+  size_t valid_len = strcspn(string, invalid);
+  if(valid_len != strlen(string))
+  printf("'%s' contains invalid chars starting at position %zu\n",
+               string, valid_len);
 
   return 0;
 }
@@ -50,22 +50,21 @@ size_t strlen(const char *str){
   return len;
 }
 
-// size_t strcspn(const char *str1, const char *str2){
-//   size_t rez = 0;
-//   size_t cnt = 0;
-//   const char *str = str2;
-//   while (*(str1++)) {
-//     *str = str2;
-//     while(*str==*str1){
-//       printf("%d\n", cnt);
-//       printf("yes\n");
-//       if (*str2=='\0'){
-//         rez = cnt;
-//       }
-//       *(str++);
-//       *(str1++);
-//     }
-//     cnt++;
-//   }
-//   return rez;
-// }
+size_t strcspn(const char *str1, const char *str2){
+  size_t rez = 0;
+  size_t cnt = 1;
+  int j = 0;
+  while ((*(str1++))&&(cnt!=-1)) {
+    printf("%d\n", cnt);
+    j = 0;
+    while ((j<strlen(str2))&&(cnt!=-1)){
+      if (*str1==str2[j]){
+        rez = cnt;
+        cnt = -1;
+      }
+      j++;
+    }
+    if (cnt!=-1) cnt++;
+  }
+  return rez;
+}
