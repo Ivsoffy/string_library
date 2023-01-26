@@ -1,0 +1,126 @@
+#include <check.h>
+#include <stdio.h>
+#include <string.h>
+
+#include "s21_string.h"
+
+START_TEST(s21_strncmp_test) {
+  ck_assert_int_eq(strncmp("bebra", "e", 1), s21_strncmp("bebra", "e", 1));
+  ck_assert_int_eq(strncmp("bebra", "e", 6), s21_strncmp("bebra", "e", 6));
+  ck_assert_int_eq(strncmp("bebra", "e", 0), s21_strncmp("bebra", "e", 0));
+  ck_assert_int_eq(strncmp("bebra", "Z", 10), s21_strncmp("bebra", "Z", 10));
+  ck_assert_int_eq(strncmp("", "abe", 10), s21_strncmp("", "abe", 10));
+  ck_assert_int_eq(strncmp("", "", 10), s21_strncmp("", "", 10));
+  ck_assert_int_eq(strncmp("bebra", "bebra", 10),
+                   s21_strncmp("bebra", "bebra", 10));
+  ck_assert_int_eq(strncmp("abo\0ba", "abo\0aa", 10),
+                   s21_strncmp("abo\0ba", "abo\0aa", 10));
+  ck_assert_int_eq(strncmp("aBoba", "b", 10), s21_strncmp("aBoba", "b", 10));
+}
+END_TEST
+
+START_TEST(s21_strcmp_test) {
+  ck_assert_int_gt(strcmp("abob3a", "abo\nba"), 0);
+  ck_assert_int_gt(s21_strcmp("abob3a", "abo\nba"), 0);
+  ck_assert_int_le(strcmp("\n\0\0\0", "\n\n\0"), 0);
+  ck_assert_int_le(s21_strcmp("\n\0\0\0", "\n\n\0"), 0);
+  ck_assert_int_le(strcmp("", "\n\n\0"), 0);
+  ck_assert_int_le(s21_strcmp("", "\n\n\0"), 0);
+  ck_assert_int_gt(strcmp("abob3a", ""), 0);
+  ck_assert_int_gt(s21_strcmp("abob3a", ""), 0);
+  ck_assert_int_eq(strcmp("", ""), s21_strcmp("", ""));
+  ck_assert_int_eq(strcmp("bebra", "bebra"), s21_strcmp("bebra", "bebra"));
+  ck_assert_int_eq(strcmp("abo\0ba", "abo\0aa"),
+                   s21_strcmp("abo\0ba", "abo\0aa"));
+  ck_assert_int_eq(strcmp("aBoba", "b"), s21_strcmp("aBoba", "b"));
+}
+END_TEST
+
+START_TEST(s21_strchr_test) {
+  ck_assert_ptr_eq(s21_strchr("Hello, World!", 'l'),
+                   strchr("Hello, World!", 'l'));
+  ck_assert_ptr_eq(s21_strchr("Hello, World!", 'A'),
+                   strchr("Hello, World!", 'A'));
+  ck_assert_ptr_eq(s21_strchr("Hello, World!", 5), strchr("Hello, World!", 5));
+  ck_assert_ptr_eq(s21_strchr("Hello, World!", '\0'),
+                   strchr("Hello, World!", '\0'));
+  ck_assert_ptr_eq(s21_strchr("", '\0'), strchr("", '\0'));
+}
+END_TEST
+
+START_TEST(s21_strcat_test) {
+  char str_11[50] = "bebra";
+  char str_21[50] = "aboba";
+  ck_assert_str_eq(strcat(str_11, str_21), s21_strcat(str_11, str_21));
+  char str_12[50] = "bebra";
+  char str_22[50] = "";
+  ck_assert_str_eq(strcat(str_12, str_22), s21_strcat(str_12, str_22));
+  char str_13[50] = "\0";
+  char str_23[50] = "aboba";
+  ck_assert_str_eq(strcat(str_13, str_23), s21_strcat(str_13, str_23));
+  char str_14[50] = "\n\n\n\0\n";
+  char str_24[50] = "aboba";
+  ck_assert_str_eq(strcat(str_14, str_24), s21_strcat(str_14, str_24));
+  char str_15[50] = "\n\n\n\0\n";
+  char str_25[50] = "\n\0\n";
+  ck_assert_str_eq(strcat(str_15, str_25), s21_strcat(str_15, str_25));
+  char str_16[50] = "\0";
+  char str_26[50] = "\n\0\n";
+  ck_assert_str_eq(strcat(str_16, str_26), s21_strcat(str_16, str_26));
+}
+END_TEST
+
+START_TEST(s21_strncat_test) {
+  char str_11[50] = "bebra";
+  char str_21[50] = "aboba";
+  ck_assert_str_eq(strncat(str_11, str_21, 3), s21_strncat(str_11, str_21, 3));
+  char str_17[50] = "bebra";
+  char str_27[50] = "aboba";
+  ck_assert_str_eq(strncat(str_17, str_27, 0), s21_strncat(str_17, str_27, 0));
+  char str_12[50] = "bebra";
+  char str_22[50] = "";
+  ck_assert_str_eq(strncat(str_12, str_22, 3), s21_strncat(str_12, str_22, 3));
+  char str_13[50] = "\0";
+  char str_23[50] = "aboba";
+  ck_assert_str_eq(strncat(str_13, str_23, 7), s21_strncat(str_13, str_23, 7));
+  char str_14[50] = "\n\n\n\0\n";
+  char str_24[50] = "aboba";
+  ck_assert_str_eq(strncat(str_14, str_24, 2), s21_strncat(str_14, str_24, 2));
+  char str_15[50] = "\n\n\n\0\n";
+  char str_25[50] = "\n\0\n";
+  ck_assert_str_eq(strncat(str_15, str_25, 1), s21_strncat(str_15, str_25, 1));
+  char str_16[50] = "\0";
+  char str_26[50] = "\n\0\n";
+  ck_assert_str_eq(strncat(str_16, str_26, 0), s21_strncat(str_16, str_26, 0));
+}
+END_TEST
+
+int main() {
+  Suite *suite = suite_create("S21_STRING");
+  SRunner *srunner = srunner_create(suite);
+
+  TCase *s21_strncmp_tcase = tcase_create("s21_strncmp_test");
+  suite_add_tcase(suite, s21_strncmp_tcase);
+  tcase_add_test(s21_strncmp_tcase, s21_strncmp_test);
+
+  TCase *s21_strcmp_tcase = tcase_create("s21_strcmp_test");
+  suite_add_tcase(suite, s21_strcmp_tcase);
+  tcase_add_test(s21_strcmp_tcase, s21_strcmp_test);
+
+  TCase *s21_strchr_tcase = tcase_create("s21_strchr_test");
+  suite_add_tcase(suite, s21_strchr_tcase);
+  tcase_add_test(s21_strchr_tcase, s21_strchr_test);
+
+  TCase *s21_strcat_tcase = tcase_create("s21_strcat_test");
+  suite_add_tcase(suite, s21_strcat_tcase);
+  tcase_add_test(s21_strcat_tcase, s21_strcat_test);
+
+  TCase *s21_strncat_tcase = tcase_create("s21_strncat_test");
+  suite_add_tcase(suite, s21_strncat_tcase);
+  tcase_add_test(s21_strncat_tcase, s21_strncat_test);
+
+  srunner_run_all(srunner, CK_VERBOSE);
+  srunner_free(srunner);
+
+  return 0;
+}
