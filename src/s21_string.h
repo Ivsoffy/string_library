@@ -3,16 +3,16 @@
 
 /*	Выполняет поиск первого вхождения символа c (беззнаковый тип)
 в первых n байтах строки, на которую указывает аргумент str. */
-void *s21_memchr(const void *str, int c, s21_size_t n)
+void *s21_memchr(const void *str, int c, s21_size_t n);
 
 //  Сравнивает первые n байтов str1 и str2.
-int s21_memcmp(const void *str1, const void *str2, s21_size_t n)
+int s21_memcmp(const void *str1, const void *str2, s21_size_t n);
 
 //  Копирует n символов из src в dest.
-void *s21_memcpy(void *dest, const void *src, s21_size_t n)
+void *s21_memcpy(void *dest, const void *src, s21_size_t n);
 
 //  Еще одна функция для копирования n символов из src в dest.
-void *s21_memmove(void *dest, const void *src, s21_size_t n)  
+void *s21_memmove(void *dest, const void *src, s21_size_t n);  
 
 /*  Копирует символ c (беззнаковый тип) в первые n символов строки,
 на которую указывает аргумент str. */
