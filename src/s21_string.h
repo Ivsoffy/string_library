@@ -3,20 +3,20 @@
 
 /*	Выполняет поиск первого вхождения символа c (беззнаковый тип)
 в первых n байтах строки, на которую указывает аргумент str. */
-void *s21_memchr(const void *str, int c, size_t n)
+void *s21_memchr(const void *str, int c, s21_size_t n)
 
 //  Сравнивает первые n байтов str1 и str2.
-int s21_memcmp(const void *str1, const void *str2, size_t n)
+int s21_memcmp(const void *str1, const void *str2, s21_size_t n)
 
 //  Копирует n символов из src в dest.
-void *s21_memcpy(void *dest, const void *src, size_t n)
+void *s21_memcpy(void *dest, const void *src, s21_size_t n)
 
 //  Еще одна функция для копирования n символов из src в dest.
-void *s21_memmove(void *dest, const void *src, size_t n)  
+void *s21_memmove(void *dest, const void *src, s21_size_t n)  
 
 /*  Копирует символ c (беззнаковый тип) в первые n символов строки,
 на которую указывает аргумент str. */
-void *s21_memset(void *str, int c, size_t n);
+void *s21_memset(void *str, int c, s21_size_t n);
 
 /* Добавляет строку, на которую указывает src, в конец строки,
 на которую указывает dest. */
@@ -24,7 +24,7 @@ char *s21_strcat(char *dest, const char *src);
 
 /* Добавляет строку, на которую указывает src, в конец строки,
 на которую указывает dest, длиной до n символов. */
-char *s21_strncat(char *dest, const char *src, size_t n);
+char *s21_strncat(char *dest, const char *src, s21_size_t n);
 
 /* Выполняет поиск первого вхождения символа c (беззнаковый тип)
 в строке, на которую указывает аргумент str. */
@@ -35,13 +35,13 @@ char *s21_strchr(const char *str, int c);
 int s21_strcmp(const char *str1, const char *str2);
 
 // Сравнивает не более первых n байтов str1 и str2.
-int s21_strncmp(const char *str1, const char *str2, size_t n);
+int s21_strncmp(const char *str1, const char *str2, s21_size_t n);
 
 // Копирует строку, на которую указывает src, в dest.
 char *s21_strcpy(char *dest, const char *src);
 
 // Копирует до n символов из строки, на которую указывает src, в dest.
-char *s21_strncpy(char *dest, const char *src, size_t n);
+char *s21_strncpy(char *dest, const char *src, s21_size_t n);
 
 /* Вычисляет длину начального сегмента str1, который полностью
 состоит из символов, не входящих в str2. */
