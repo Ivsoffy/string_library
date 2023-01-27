@@ -1,4 +1,5 @@
 #include "s21_string.h"
+#include <string.h>
 
 // int main() {
 //   char *src = "Take the test.";
@@ -8,12 +9,8 @@
 //   dst[4] = '\0';
 //   // printf("%s\n", dst);
 //   // printf("%d", strlen(dst));
-//   const char *string = "abcde312$#@";
-//   const char *invalid = "*$#";
-//   size_t valid_len = s21_strcspn(string, invalid);
-//   if(valid_len != s21_strlen(string))
-//   printf("'%s' contains invalid chars starting at position %zu\n",
-//                string, valid_len);
+//   const char *invalid = "Hello, world!";
+//   printf("\n%ld - %ld\n", s21_strcspn("test started", "a"), strcspn("test started", "a"));
 
 //   return 0;
 // }
@@ -52,19 +49,21 @@ size_t s21_strlen(const char *str){
 
 size_t s21_strcspn(const char *str1, const char *str2){
   size_t rez = 0;
-  size_t cnt = 1;
-  int j = 0;
-  while ((*(str1++))&&((int)cnt!=-1)) {
+  size_t cnt = 0;
+  int i = 0, j = 0;
+  while ((str1[i])&&((int)cnt!=-1)) {
     j = 0;
-    while ((j<(int)s21_strlen(str2))&&((int)cnt!=-1)){
-      if (*str1==str2[j]){
+    while ((str2[j])&&((int)cnt!=-1)){
+      if (str1[i]==str2[j]){
         rez = cnt;
         cnt = -1;
       }
       j++;
     }
     if ((int)cnt!=-1) cnt++;
+    i++;
   }
+  rez = s21_strlen(str2) ? rez : s21_strlen(str1);
   return rez;
 }
 
