@@ -142,6 +142,15 @@ START_TEST(s21_strncpy_test){
 }
 END_TEST
 
+START_TEST(s21_strerror_test){
+    for (int i = 0; i < 150; i++) {
+        ck_assert_str_eq(strerror(i), s21_strerror(i));
+    }
+    int n = -1;
+    ck_assert_str_eq(strerror(n), s21_strerror(n));
+}
+END_TEST
+
 int main() {
     Suite *suite = suite_create("S21_STRING");
     SRunner *srunner = srunner_create(suite);
@@ -161,6 +170,10 @@ int main() {
     TCase *s21_strncpy_tcase = tcase_create("s21_strncpy_test");
     suite_add_tcase(suite, s21_strncpy_tcase);
     tcase_add_test(s21_strncpy_tcase, s21_strncpy_test);
+
+    TCase *s21_strerror_tcase = tcase_create("s21_strerror_test");
+    suite_add_tcase(suite, s21_strerror_tcase);
+    tcase_add_test(s21_strerror_tcase, s21_strerror_test);
 
     srunner_run_all(srunner, CK_VERBOSE);
     srunner_free(srunner);

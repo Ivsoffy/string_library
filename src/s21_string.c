@@ -1,20 +1,4 @@
 #include "s21_string.h"
-#include <string.h>
-
-// int main() {
-//   char *src = "Take the test.";
-//   char dst[14 + 1]; 
-//   // printf("%s\n", strncpy(dst, src, 10));
-//   dst[0] = 'M';
-//   dst[4] = '\0';
-//   // printf("%s\n", dst);
-//   // printf("%d", strlen(dst));
-//   const char *invalid = "Hello, world!";
-//   printf("\n%ld - %ld\n", s21_strcspn("test started", "a"), strcspn("test started", "a"));
-
-//   return 0;
-// }
-
 
 char *s21_strcpy(char *dest, const char *src) {
   char *cp = dest;
@@ -67,6 +51,14 @@ size_t s21_strcspn(const char *str1, const char *str2){
   return rez;
 }
 
-// char *strerror(int errnum){
-  
-// }
+char* s21_strerror(int errnum) {
+    char* err[] = ERRORLIST;
+    static char rez[100];
+    int max = (*err[0]=='S') ? 107 : 133;
+    if (errnum > 0 && errnum <= max) {
+        s21_strcpy(rez, err[errnum]);
+    } else {
+        sprintf(rez, "%s %d", "Unknown error:", errnum); //change to s21_spintf
+    }
+    return rez;
+}
