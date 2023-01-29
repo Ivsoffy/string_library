@@ -42,4 +42,3 @@ void print_u(char *str, va_list args, int *n, flags *opt);
 void print_unsigned_int(char *str, int *n, flags *opt, unsigned long long int argument_ll);
 void print_c(char *str, va_list args, int *n, flags *opt);
 void print_s(char *str, va_list args, int *n, flags *opt);
-void print_percent(char *str, int *n, flags *opt);
