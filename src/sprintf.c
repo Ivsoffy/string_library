@@ -4,7 +4,7 @@
 
 int main() {
   char *str = (char *)calloc(1,1000);
-  if (s21_sprintf(str,"bebra%+-120ldbebra%hd", 9223372036854775111, 0) + 1 == printf("\nbebra%+-120ldbebra%hd", 9223372036854775111, 0)) {
+  if (s21_sprintf(str,"bebra%120lubebra%u", 9223372036854775111, 0) == printf("bebra%120lubebra%u", 9223372036854775111, 0)) {
     printf("\nOK\n");
   }
   printf("%s", str);
@@ -117,7 +117,7 @@ switch (format[index]) {
         printf("make");
         break;
     case 'u':
-        printf("make");
+        print_u(str, args, n, opt);
         break;
     case '%':
         printf("make");
@@ -138,7 +138,7 @@ void print_d(char *str, va_list args, int *n, flags *opt) {
     argument_ll = (long long int)argument;
   } else {
     int argument = va_arg(args, int);
-    argument_ll = argument;
+    argument_ll = (long long int)argument;
   }  
   print_int(str, n, opt, argument_ll);
 }
@@ -221,6 +221,78 @@ void print_int(char *str, int *n, flags *opt, long long int argument_ll) {
       i++;
     } else if (argument_ll < 0) {
       str_part[i] = '-';
+      *n += 1;
+      i++;
+    } else if (opt -> space == 1) {
+      str_part[i] = ' ';
+      *n += 1;
+      i++;
+    }
+    paste_int(str_part, &i, len, argument_ll);
+    *n += len;
+  }
+  str_part[i] = '\0';
+  strcat(str, str_part);
+}
+
+void print_u(char *str, va_list args, int *n, flags *opt) {
+    unsigned long long int argument_ll;
+  if (opt-> l == 2) {
+    unsigned long long int argument = va_arg(args, unsigned long long int);
+    argument_ll = (unsigned long long int)argument;
+  } else if (opt -> l == 1) {
+    unsigned long int argument = va_arg(args, unsigned long int);
+    argument_ll = (unsigned long long int)argument;
+  } else if (opt->h == 1) {
+    unsigned short int argument = va_arg(args, unsigned int);
+    argument_ll = (unsigned long long int)argument;
+  } else {
+    unsigned int argument = va_arg(args, unsigned int);
+    argument_ll = (unsigned long long int)argument;
+  }
+  print_unsigned_int(str, n, opt, argument_ll);
+}
+
+void print_unsigned_int(char *str, int *n, flags *opt, unsigned long long int argument_ll) {
+    char str_part[248];
+  int i = 0;
+  long long int len = len_of_int(argument_ll);
+  if ((opt -> width == 1) && (opt -> width_value > len) && (opt -> minus == 0)) {
+    while (i < ((opt->width_value) - len)) {
+      if (i == ((opt->width_value) - len) - 1) {
+        if (opt->plus && argument_ll > 0) {
+          str_part[i] = '+';
+        } else {
+          str_part[i] = ' ';
+        }
+        i++;
+        break;
+      }
+      str_part[i] = ' ';
+      i++;
+    }
+    paste_int(str_part, &i, len, argument_ll);
+    *n += (opt->width_value);
+  } else if ((opt -> width == 1) && (opt -> width_value > len) && (opt -> minus == 1)) {
+    if (opt->plus && argument_ll > 0) {
+      str_part[i] = '+';
+      *n += 1;
+      i++;
+    } else if (opt -> space == 1) {
+      str_part[i] = ' ';
+      *n += 1;
+      i++;
+    }
+    paste_int(str_part, &i, len, argument_ll);
+    *n += len;
+    while (i < opt -> width_value) {
+        str_part[i] = ' ';
+        i++;
+        *n += 1;
+    }
+  } else {
+    if (opt->plus && argument_ll > 0) {
+      str_part[i] = '+';
       *n += 1;
       i++;
     } else if (opt -> space == 1) {

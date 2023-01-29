@@ -38,3 +38,5 @@ void print_d(char *str, va_list args, int *n, flags *opt);
 long long int len_of_int(long long int x);
 void paste_int(char *str_part, int *i, long long int len, long long int argument);
 void print_int(char *str, int *n, flags *opt, long long int argument_ll);
+void print_u(char *str, va_list args, int *n, flags *opt);
+void print_unsigned_int(char *str, int *n, flags *opt, unsigned long long int argument_ll);
