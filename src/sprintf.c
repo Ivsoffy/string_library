@@ -3,13 +3,11 @@
 
 
 int main() {
-  char *str = (char *)calloc(1,1000);
-  if (s21_sprintf(str,"bebra%120.0lubebra%u", 9223372036854775111, 0) == printf("bebra%120.0lubebra%u", 9223372036854775111, 0)) {
-    printf("\nOK\n");
-  }
-  printf("%s\n", str);
-  free(str);
-  printf("%c", 'b');
+  char str[100] = {'\0'};
+  sprintf(str,"%10.3s\n", "sosihuybidlo");
+  printf("%s", str);
+
+
 
 }
 
@@ -112,10 +110,10 @@ switch (format[index]) {
         printf("make");
         break;
     case 'c':
-        printf("make");
+        print_c(str, args, n, opt);
         break;
     case 's':
-        printf("make");
+        print_s(str, args, n, opt);
         break;
     case 'u':
         print_u(str, args, n, opt);
@@ -335,6 +333,45 @@ void print_c(char *str, va_list args, int *n, flags *opt) {
     }
     str_part[i] = '\0';
     strcat(str, str_part);
-
 }
 
+void print_s(char *str, va_list args, int *n, flags *opt) {
+    char *argument = va_arg(args, char *);
+    if (argument == S21_NULL) {
+        argument = "(null)";
+    }
+    char str_part[4096];
+    int len = strlen(argument);
+    if (opt -> accuracy == 1 && opt -> accuracy_value < len) {
+        len = opt -> accuracy_value;
+        argument[len] = '\0';
+    }
+    int i = 0;
+    if (opt -> width == 1 && opt -> width_value > len) {
+        if (opt -> minus == 0) {
+            for (int j = 0; j < len; ++j) {
+                str_part[i] = argument[j];
+                *n += 1;
+                i++;
+            }
+            for (int j = 0; j < (opt -> width_value) - len; ++j) {
+                str_part[i] = ' ';
+                *n += 1;
+                i++;
+            }
+        } else {
+            for (int j = 0; j < (opt -> width_value) - len; ++j) {
+                str_part[i] = ' ';
+                *n += 1;
+                i++;
+            }
+            for (int j = 0; j < len; ++j) {
+                str_part[i] = argument[j];
+                *n += 1;
+                i++;
+            }
+        }
+    }
+    str_part[i] = '\0';
+    strcat(str, str_part);
+}
