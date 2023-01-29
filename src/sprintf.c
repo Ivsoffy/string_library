@@ -4,10 +4,10 @@
 
 int main() {
   char *str = (char *)calloc(1,1000);
-  s21_sprintf(str,"bebra%ldbebra%hd", 9223372036854775111, 0);
+  s21_sprintf(str,"bebra%+-120ldbebra%hd", 9223372036854775111, 0);
   printf("%s", str);
-  printf("\nbebra%ldbebra%hd", 9223372036854775111, 0);
-  
+  printf("\nbebra%+-120ldbebra%hd", 9223372036854775111, 0);
+  free(str);
 
 }
 
@@ -99,15 +99,29 @@ int take_int(int *index, const char* format) {
 }
 
 void print_specificator(const char *format, int index, char *str, va_list args, int *n, flags *opt) {
-  if (format[index] == 'd') {
-    print_d(str, args, n, opt);
-  } else if (format[index] == 'i') {
-  } else if (format[index] == 'f') {
-  } else if (format[index] == 'c') {
-  } else if (format[index] == 's') {
-  } else if (format[index] == 'u') {
-  } else if (format[index] == '%') {
-  }
+switch (format[index]) {
+    case 'd':
+        print_d(str, args, n, opt);
+        break;
+    case 'i':
+        print_d(str, args, n, opt);
+        break;
+    case 'f':
+        printf("make");
+        break;
+    case 'c':
+        printf("make");
+        break;
+    case 's':
+        printf("make");
+        break;
+    case 'u':
+        printf("make");
+        break;
+    case '%':
+        printf("make");
+        break;
+}
 }
 
 void print_d(char *str, va_list args, int *n, flags *opt) {
@@ -124,48 +138,8 @@ void print_d(char *str, va_list args, int *n, flags *opt) {
   } else {
     int argument = va_arg(args, int);
     argument_ll = argument;
-  }
-  
-  char str_part[248];
-  int i = 0;
-  long long int len = len_of_int(argument_ll);
-  if ((opt -> width == 1) && (opt -> width_value > len) && (opt -> minus == 0)) {
-    while (i < ((opt->width_value) - len)) {
-      if (i == ((opt->width_value) - len) - 1) {
-        if (opt->plus && argument_ll > 0) {
-          str_part[i] = '+';
-        } else if (argument_ll < 0) {
-          str_part[i] = '-';
-        } else {
-          str_part[i] = ' ';
-        }
-        i++;
-        break;
-      }
-      str_part[i] = ' ';
-      i++;
-    }
-    paste_int(str_part, &i, len, argument_ll);
-    *n += (opt->width_value);
-  } else {
-    if (opt->plus && argument_ll > 0) {
-      str_part[i] = '+';
-      *n += 1;
-      i++;
-    } else if (argument_ll < 0) {
-      str_part[i] = '-';
-      *n += 1;
-      i++;
-    } else if (opt -> space == 1) {
-      str_part[i] = ' ';
-      *n += 1;
-      i++;
-    }
-    paste_int(str_part, &i, len, argument_ll);
-    *n += len;
-  }
-  str_part[i] = '\0';
-  strcat(str, str_part);
+  }  
+  print_int(str, n, opt, argument_ll);
 }
 
 void paste_int(char *str_part, int *i, long long int len, long long int argument) {
@@ -193,4 +167,69 @@ long long int len_of_int(long long int x) {
   }
   rv += 1;
   return rv;
+}
+
+
+void print_int(char *str, int *n, flags *opt, long long int argument_ll) {
+    char str_part[248];
+  int i = 0;
+  long long int len = len_of_int(argument_ll);
+  if ((opt -> width == 1) && (opt -> width_value > len) && (opt -> minus == 0)) {
+    while (i < ((opt->width_value) - len)) {
+      if (i == ((opt->width_value) - len) - 1) {
+        if (opt->plus && argument_ll > 0) {
+          str_part[i] = '+';
+        } else if (argument_ll < 0) {
+          str_part[i] = '-';
+        } else {
+          str_part[i] = ' ';
+        }
+        i++;
+        break;
+      }
+      str_part[i] = ' ';
+      i++;
+    }
+    paste_int(str_part, &i, len, argument_ll);
+    *n += (opt->width_value);
+  } else if ((opt -> width == 1) && (opt -> width_value > len) && (opt -> minus == 1)) {
+    if (opt->plus && argument_ll > 0) {
+      str_part[i] = '+';
+      *n += 1;
+      i++;
+    } else if (argument_ll < 0) {
+      str_part[i] = '-';
+      *n += 1;
+      i++;
+    } else if (opt -> space == 1) {
+      str_part[i] = ' ';
+      *n += 1;
+      i++;
+    }
+    paste_int(str_part, &i, len, argument_ll);
+    *n += len;
+    while (i < opt -> width_value) {
+        str_part[i] = ' ';
+        i++;
+        *n += 1;
+    }
+  } else {
+    if (opt->plus && argument_ll > 0) {
+      str_part[i] = '+';
+      *n += 1;
+      i++;
+    } else if (argument_ll < 0) {
+      str_part[i] = '-';
+      *n += 1;
+      i++;
+    } else if (opt -> space == 1) {
+      str_part[i] = ' ';
+      *n += 1;
+      i++;
+    }
+    paste_int(str_part, &i, len, argument_ll);
+    *n += len;
+  }
+  str_part[i] = '\0';
+  strcat(str, str_part);
 }
