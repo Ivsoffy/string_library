@@ -4,11 +4,12 @@
 
 int main() {
   char *str = (char *)calloc(1,1000);
-  if (s21_sprintf(str,"bebra%120lubebra%u", 9223372036854775111, 0) == printf("bebra%120lubebra%u", 9223372036854775111, 0)) {
+  if (s21_sprintf(str,"bebra%120.0lubebra%u", 9223372036854775111, 0) == printf("bebra%120.0lubebra%u", 9223372036854775111, 0)) {
     printf("\nOK\n");
   }
-  printf("%s", str);
+  printf("%s\n", str);
   free(str);
+  printf("%c", 'b');
 
 }
 
@@ -172,7 +173,7 @@ long long int len_of_int(long long int x) {
 
 
 void print_int(char *str, int *n, flags *opt, long long int argument_ll) {
-    char str_part[248];
+    char str_part[1024];
   int i = 0;
   long long int len = len_of_int(argument_ll);
   if ((opt -> width == 1) && (opt -> width_value > len) && (opt -> minus == 0)) {
@@ -254,7 +255,7 @@ void print_u(char *str, va_list args, int *n, flags *opt) {
 }
 
 void print_unsigned_int(char *str, int *n, flags *opt, unsigned long long int argument_ll) {
-    char str_part[248];
+    char str_part[1024];
   int i = 0;
   long long int len = len_of_int(argument_ll);
   if ((opt -> width == 1) && (opt -> width_value > len) && (opt -> minus == 0)) {
@@ -306,3 +307,34 @@ void print_unsigned_int(char *str, int *n, flags *opt, unsigned long long int ar
   str_part[i] = '\0';
   strcat(str, str_part);
 }
+
+void print_c(char *str, va_list args, int *n, flags *opt) {
+    char argument = va_arg(args, int);
+    char str_part[1024];
+    int i = 0;
+    if (opt -> width == 1 && opt -> width_value > 1) {
+        if (opt -> minus == 0) {
+            str_part[i] = argument;
+            *n += 1;
+            i++;
+            for (int j = 0; j < (opt -> width_value) - 1; ++j) {
+                str_part[i] = ' ';
+                *n += 1;
+                i++;
+            }
+        } else {
+            for (int j = 0; j < (opt -> width_value) - 1; ++j) {
+                str_part[i] = ' ';
+                *n += 1;
+                i++;
+            }
+            str_part[i] = argument;
+            *n += 1;
+            i++;
+        } 
+    }
+    str_part[i] = '\0';
+    strcat(str, str_part);
+
+}
+
