@@ -119,7 +119,7 @@ switch (format[index]) {
         print_u(str, args, n, opt);
         break;
     case '%':
-        printf("make");
+        print_percent(str, n, opt);
         break;
 }
 }
@@ -371,6 +371,34 @@ void print_s(char *str, va_list args, int *n, flags *opt) {
                 i++;
             }
         }
+    }
+    str_part[i] = '\0';
+    strcat(str, str_part);
+}
+
+void print_percent(char *str, int *n, flags *opt) {
+    char str_part[1024];
+    int i = 0;
+    if (opt -> width == 1 && opt -> width_value > 1) {
+        if (opt -> minus == 0) {
+            str_part[i] = '%';
+            *n += 1;
+            i++;
+            for (int j = 0; j < (opt -> width_value) - 1; ++j) {
+                str_part[i] = ' ';
+                *n += 1;
+                i++;
+            }
+        } else {
+            for (int j = 0; j < (opt -> width_value) - 1; ++j) {
+                str_part[i] = ' ';
+                *n += 1;
+                i++;
+            }
+            str_part[i] = '%';
+            *n += 1;
+            i++;
+        } 
     }
     str_part[i] = '\0';
     strcat(str, str_part);
