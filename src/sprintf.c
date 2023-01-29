@@ -5,7 +5,7 @@
 int main() {
   char str[100] = {'\0'};
   sprintf(str,"%10.3s\n", "sosihuybidlo");
-  printf("%s", str);
+  printf("%10%");
 
 
 
