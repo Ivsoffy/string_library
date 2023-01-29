@@ -4,9 +4,10 @@
 
 int main() {
   char *str = (char *)calloc(1,1000);
-  s21_sprintf(str,"bebra%+-120ldbebra%hd", 9223372036854775111, 0);
+  if (s21_sprintf(str,"bebra%+-120ldbebra%hd", 9223372036854775111, 0) + 1 == printf("\nbebra%+-120ldbebra%hd", 9223372036854775111, 0)) {
+    printf("\nOK\n");
+  }
   printf("%s", str);
-  printf("\nbebra%+-120ldbebra%hd", 9223372036854775111, 0);
   free(str);
 
 }
