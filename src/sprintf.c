@@ -2,14 +2,14 @@
 
 
 
-int main() {
-  char str[100] = {'\0'};
-  sprintf(str,"%10.3s%%bebra\naboba", "sosihuybidlo");
-  printf("%s",str);
+// int main() {
+//   char str[100] = {'\0'};
+//   sprintf(str,"%10.3s%%bebra\naboba", "sosihuybidlo");
+//   printf("%s",str);
 
 
 
-}
+// }
 
 int s21_sprintf(char* str, const char* format, ...) {
     int rv_count = 0;
@@ -372,6 +372,12 @@ void print_s(char *str, va_list args, int *n, flags *opt) {
                 i++;
             }
         }
+    } else {
+      for (int j = 0; j < len; ++j) {
+                str_part[i] = argument[j];
+                *n += 1;
+                i++;
+      }
     }
     str_part[i] = '\0';
     strcat(str, str_part);
