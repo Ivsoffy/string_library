@@ -119,8 +119,7 @@ switch (format[index]) {
         print_u(str, args, n, opt);
         break;
     case '%':
-        s21_strcat(str, "%");
-        *n += 1;
+        paste_str_part("%", n, str);
         break;
 }
 }
