@@ -319,15 +319,14 @@ void print_s(char *str, va_list args, int *n, flags *opt) {
     if (argument == S21_NULL) {
         argument = "(null)";
     }
-    char str_part[4096] = {'\0'};
+    char str_part[2048];
     int len = strlen(argument);
     if (opt -> accuracy == 1 && opt -> accuracy_value < len) {
         len = opt -> accuracy_value;
-        argument[len] = '\0';
     }
     int i = 0;
     if (opt -> width == 1 && opt -> width_value > len) {
-        if (opt -> minus == 0) {
+        if (opt -> minus == 1) {
             for (int j = 0; j < len; ++j) {
                 str_part[i] = argument[j];
                 i++;

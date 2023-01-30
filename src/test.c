@@ -96,7 +96,14 @@ START_TEST(s21_strncat_test) {
 END_TEST
 
 START_TEST(s21_sprintf_test) {
-  
+    char str1[1024];
+    char str2[1024];
+    int rv1;
+    int rv2;
+    rv1 = sprintf(str1, "|%-20.5s% 15dA", "abacaba12345", -123);
+    rv2 = s21_sprintf(str2, "|%-20.5s% 15dA", "abacaba12345", -123);
+    ck_assert_str_eq(str1, str2);
+    ck_assert_int_eq(rv1, rv2);
 }
 END_TEST
 
