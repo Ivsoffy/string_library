@@ -20,22 +20,22 @@ test: test.o s21_string.a
 test.o:
 	gcc $(CFLAGS) test.c -o test.o
 
-s21_string.a: s21_string.o sprintf.o
-	ar rcs s21_string.a s21_string.o sprintf.o
+s21_string.a: s21_string.o s21_sprintf.o
+	ar rcs s21_string.a s21_string.o s21_sprintf.o
 	ranlib s21_string.a
 	rm s21_string.o
 
 s21_string.o: s21_string.c
 	gcc $(CFLAGS) s21_string.c -o s21_string.o
 
-sprintf.o: sprintf.c
-	gcc $(CFLAGS) sprintf.c -o sprintf.o
+s21_sprintf.o: s21_sprintf.c
+	gcc $(CFLAGS) s21_sprintf.c -o s21_sprintf.o
 
 clean:
 	rm -rf *.o *.a *.out *.info *.html *.gc* test gcov_report s21_string report
 
 gcov_report:
-	gcc -fprofile-arcs -ftest-coverage test.c s21_string.c -o gcov_report $(TEST_FLAGS)
+	gcc -fprofile-arcs -ftest-coverage test.c s21_string.c s21_sprintf.c -o gcov_report $(TEST_FLAGS)
 	./gcov_report
 	lcov -t "test" -o test.info -c -d .
 	genhtml -o report test.info

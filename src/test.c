@@ -136,6 +136,32 @@ START_TEST(s21_sprintf_test) {
     rv2 = s21_sprintf(str2, "%+5d", 25);
     ck_assert_str_eq(str1, str2);
     ck_assert_int_eq(rv1, rv2);
+    char *null = S21_NULL;
+    rv1 = sprintf(str1, "%s", null);
+    rv2 = s21_sprintf(str2, "%s", null);
+    ck_assert_str_eq(str1, str2);
+    ck_assert_int_eq(rv1, rv2);
+    rv1 = sprintf(str1, "%15s", "bebra");
+    rv2 = s21_sprintf(str2, "%15s", "bebra");
+    ck_assert_str_eq(str1, str2);
+    ck_assert_int_eq(rv1, rv2);
+    rv1 = sprintf(str1, "%+-15d", 15);
+    rv2 = s21_sprintf(str2, "%+-15d", 15);
+    ck_assert_str_eq(str1, str2);
+    ck_assert_int_eq(rv1, rv2);
+    rv1 = sprintf(str1, "%15u%lu%-llu%15hu", (unsigned int)123, (long unsigned int)54345, (long long unsigned int)34354, (short int)534435);
+    rv2 = s21_sprintf(str2, "%15u%lu%-llu%15hu", 123, 54345, 34354, 534435);
+    ck_assert_str_eq(str1, str2);
+    ck_assert_int_eq(rv1, rv2);
+    rv1 = sprintf(str1, "%-15u%lu%-llu%15hu", (unsigned int)123, (long unsigned int)54345, (long long unsigned int)34354, (short int)534435);
+    rv2 = s21_sprintf(str2, "%-15u%lu%-llu%15hu", 123, 54345, 34354, 534435);
+    ck_assert_str_eq(str1, str2);
+    ck_assert_int_eq(rv1, rv2);
+    rv1 = sprintf(str1, "% -15d", 15);
+    rv2 = s21_sprintf(str2, "% -15d", 15);
+    ck_assert_str_eq(str1, str2);
+    ck_assert_int_eq(rv1, rv2);
+    
 
 }
 END_TEST
