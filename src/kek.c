@@ -1,15 +1,13 @@
 #include <stdio.h>
 #include <math.h>
 #include "s21_string.h"
-#define DEF_VAL 6
-int print_float(char *str, int *n, flags *opt, long double argument_ll);
 
 
 int main(){
     char str1[1024], str2[1024];
-    s21_sprintf(str1, "% 10.3lf", 123.43025);
+    s21_sprintf(str1, "% 10.3lf", -123.43025);
     printf("\n%s..", str1);
-    sprintf(str2, "% 10.3lf", 123.43025);
+    sprintf(str2, "% 10.3lf", -123.43025);
     printf("\n%s", str2);
     return 0;
 }
@@ -30,10 +28,8 @@ void print_f(char *str, va_list args, int *n, flags *opt) {
   print_float(str, n, opt, argument_ll);
 }
 
-
 int s21_sprintf(char* str, const char* format, ...) {
     int rv_count = 0;
-    // поменять на s21_strlen
     int length = strlen(format);
     va_list(args);
     va_start(args, format);
@@ -190,22 +186,18 @@ long long int len_of_int(long long int x) {
 }
 
 int print_float(char *str, int *n, flags *opt, long double argument_ll){
-  int num1 = 0, num2 = 0, len_sec = 0, n_pw;
-  int sign =  argument_ll > 0 ? 1 : -1;
-  char num1_str[1000] = "", *p1 = S21_NULL;
-  p1 = num1_str;
-  long double first = 0, second_i = 0;
-  second_i = modfl(fabsl(argument_ll), &first);
-  n_pw = opt->accuracy ? opt->accuracy_value : DEF_VAL;
+  long double first = 0, second = 0;
+  second = modfl(fabsl(argument_ll), &first);
+  int n_pw = opt->accuracy ? opt->accuracy_value : DEF_VAL;
   int pw = 1, s_digit = 0, f_digit = 0;
   while(pw<=n_pw){
-    s_digit = lroundf(second_i*pow(10,pw));
+    s_digit = lroundf(second*pow(10,pw));
     pw++;
   }
   f_digit = (int)first;
+
   int i = 0;
   long long int len = len_of_int(f_digit)+len_of_int(s_digit)+1;
-  
   char str_part[1024] = {'\0'};
   if ((opt -> width == 1) && (opt -> width_value > len) && (opt -> minus == 0)) { //func
     while (i < ((opt->width_value) - len)) {
@@ -228,16 +220,7 @@ int print_float(char *str, int *n, flags *opt, long double argument_ll){
     i++;
     paste_int(str_part, &i,  len_of_int(s_digit), s_digit);
   }else if ((opt -> width == 1) && (opt -> width_value > len) && (opt -> minus == 1)){
-    if (opt->plus && argument_ll > 0) {
-      str_part[i] = '+';
-      i++;
-    } else if (argument_ll < 0) {
-      str_part[i] = '-';
-      i++;
-    } else if (opt -> space == 1) {
-      str_part[i] = ' ';
-      i++;
-    }
+    print_flags(str_part, &i, argument_ll, opt);
     paste_int(str_part, &i,  len_of_int(f_digit), f_digit);
     strcat(str_part, ".");
     i++;
@@ -247,16 +230,7 @@ int print_float(char *str, int *n, flags *opt, long double argument_ll){
         i++;
     }
   }else {
-    if (opt->plus && argument_ll > 0) {
-      str_part[i] = '+';
-      i++;
-    } else if (argument_ll < 0) {
-      str_part[i] = '-';
-      i++;
-    } else if (opt -> space == 1) {
-      str_part[i] = ' ';
-      i++;
-    }
+    print_flags(str_part, &i, argument_ll, opt);
     paste_int(str_part, &i,  len_of_int(f_digit), f_digit);
     strcat(str_part, ".");
     i++;
@@ -264,8 +238,20 @@ int print_float(char *str, int *n, flags *opt, long double argument_ll){
   }
   str_part[i] = '\0';
   paste_str_part(str_part, n, str);
-
   return 0;
+}
+
+void print_flags(char *str_part, int *i, long long int argument, flags *opt){
+    if (opt->plus && argument > 0) {
+      str_part[*i] = '+';
+      *i+=1;
+    } else if (argument < 0) {
+      str_part[*i] = '-';
+      *i+=1;
+    } else if (opt -> space == 1) {
+      str_part[*i] = ' ';
+      *i+=1;
+    }
 }
 
 void print_int(char *str, int *n, flags *opt, long long int argument_ll) {
@@ -290,32 +276,14 @@ void print_int(char *str, int *n, flags *opt, long long int argument_ll) {
     }
     paste_int(str_part, &i, len, argument_ll);
   } else if ((opt -> width == 1) && (opt -> width_value > len) && (opt -> minus == 1)) {
-    if (opt->plus && argument_ll > 0) {
-      str_part[i] = '+';
-      i++;
-    } else if (argument_ll < 0) {
-      str_part[i] = '-';
-      i++;
-    } else if (opt -> space == 1) {
-      str_part[i] = ' ';
-      i++;
-    }
+    print_flags(str_part, &i, argument_ll, opt);
     paste_int(str_part, &i, len, argument_ll);
     while (i < opt -> width_value) {
         str_part[i] = ' ';
         i++;
     }
   } else {
-    if (opt->plus && argument_ll > 0) {
-      str_part[i] = '+';
-      i++;
-    } else if (argument_ll < 0) {
-      str_part[i] = '-';
-      i++;
-    } else if (opt -> space == 1) {
-      str_part[i] = ' ';
-      i++;
-    }
+    print_flags(str_part, &i, argument_ll, opt);
     paste_int(str_part, &i, len, argument_ll);
   }
   str_part[i] = '\0';
@@ -360,26 +328,14 @@ void print_unsigned_int(char *str, int *n, flags *opt, unsigned long long int ar
     }
     paste_int(str_part, &i, len, argument_ll);
   } else if ((opt -> width == 1) && (opt -> width_value > len) && (opt -> minus == 1)) {
-    if (opt->plus && argument_ll > 0) {
-      str_part[i] = '+';
-      i++;
-    } else if (opt -> space == 1) {
-      str_part[i] = ' ';
-      i++;
-    }
+    print_flags(str_part, &i, argument_ll, opt);
     paste_int(str_part, &i, len, argument_ll);
     while (i < opt -> width_value) {
         str_part[i] = ' ';
         i++;
     }
   } else {
-    if (opt->plus && argument_ll > 0) {
-      str_part[i] = '+';
-      i++;
-    } else if (opt -> space == 1) {
-      str_part[i] = ' ';
-      i++;
-    }
+    print_flags(str_part, &i, argument_ll, opt);
     paste_int(str_part, &i, len, argument_ll);
   }
   str_part[i] = '\0';
