@@ -119,7 +119,7 @@ switch (format[index]) {
         print_u(str, args, n, opt);
         break;
     case '%':
-        strcat(str, "%");
+        s21_strcat(str, "%");
         *n += 1;
         break;
 }
@@ -172,7 +172,7 @@ long long int len_of_int(long long int x) {
 
 
 void print_int(char *str, int *n, flags *opt, long long int argument_ll) {
-    char str_part[1024];
+    char str_part[1024] = {'\0'};
   int i = 0;
   long long int len = len_of_int(argument_ll);
   if ((opt -> width == 1) && (opt -> width_value > len) && (opt -> minus == 0)) {
@@ -232,7 +232,7 @@ void print_int(char *str, int *n, flags *opt, long long int argument_ll) {
     *n += len;
   }
   str_part[i] = '\0';
-  strcat(str, str_part);
+  paste_str_part(str_part, n, str);
 }
 
 void print_u(char *str, va_list args, int *n, flags *opt) {
@@ -254,7 +254,7 @@ void print_u(char *str, va_list args, int *n, flags *opt) {
 }
 
 void print_unsigned_int(char *str, int *n, flags *opt, unsigned long long int argument_ll) {
-    char str_part[1024];
+    char str_part[1024] = {'\0'};
   int i = 0;
   long long int len = len_of_int(argument_ll);
   if ((opt -> width == 1) && (opt -> width_value > len) && (opt -> minus == 0)) {
@@ -304,12 +304,12 @@ void print_unsigned_int(char *str, int *n, flags *opt, unsigned long long int ar
     *n += len;
   }
   str_part[i] = '\0';
-  strcat(str, str_part);
+  paste_str_part(str_part, n, str);
 }
 
 void print_c(char *str, va_list args, int *n, flags *opt) {
     char argument = va_arg(args, int);
-    char str_part[1024];
+    char str_part[1024] = {'\0'};
     int i = 0;
     if (opt -> width == 1 && opt -> width_value > 1) {
         if (opt -> minus == 0) {
@@ -333,7 +333,7 @@ void print_c(char *str, va_list args, int *n, flags *opt) {
         } 
     }
     str_part[i] = '\0';
-    strcat(str, str_part);
+    paste_str_part(str_part, n, str);
 }
 
 void print_s(char *str, va_list args, int *n, flags *opt) {
@@ -341,7 +341,7 @@ void print_s(char *str, va_list args, int *n, flags *opt) {
     if (argument == S21_NULL) {
         argument = "(null)";
     }
-    char str_part[4096];
+    char str_part[4096] = {'\0'};
     int len = strlen(argument);
     if (opt -> accuracy == 1 && opt -> accuracy_value < len) {
         len = opt -> accuracy_value;
@@ -352,35 +352,39 @@ void print_s(char *str, va_list args, int *n, flags *opt) {
         if (opt -> minus == 0) {
             for (int j = 0; j < len; ++j) {
                 str_part[i] = argument[j];
-                *n += 1;
                 i++;
             }
             for (int j = 0; j < (opt -> width_value) - len; ++j) {
                 str_part[i] = ' ';
-                *n += 1;
                 i++;
             }
         } else {
             for (int j = 0; j < (opt -> width_value) - len; ++j) {
                 str_part[i] = ' ';
-                *n += 1;
                 i++;
             }
             for (int j = 0; j < len; ++j) {
                 str_part[i] = argument[j];
-                *n += 1;
                 i++;
             }
         }
     } else {
       for (int j = 0; j < len; ++j) {
                 str_part[i] = argument[j];
-                *n += 1;
                 i++;
       }
     }
     str_part[i] = '\0';
-    strcat(str, str_part);
+    paste_str_part(str_part, n, str);
 }
+
+void paste_str_part(char *str_part, int *n, char *str) {
+  int len_part = strlen(str_part);
+  for (int j = 0; j < len_part; ++j) {
+    str[*n] = str_part[j];
+    *n += 1;
+  }
+}
+
 
 
