@@ -192,44 +192,34 @@ void print_int(char *str, int *n, flags *opt, long long int argument_ll) {
       i++;
     }
     paste_int(str_part, &i, len, argument_ll);
-    *n += (opt->width_value);
   } else if ((opt -> width == 1) && (opt -> width_value > len) && (opt -> minus == 1)) {
     if (opt->plus && argument_ll > 0) {
       str_part[i] = '+';
-      *n += 1;
       i++;
     } else if (argument_ll < 0) {
       str_part[i] = '-';
-      *n += 1;
       i++;
     } else if (opt -> space == 1) {
       str_part[i] = ' ';
-      *n += 1;
       i++;
     }
     paste_int(str_part, &i, len, argument_ll);
-    *n += len;
     while (i < opt -> width_value) {
         str_part[i] = ' ';
         i++;
-        *n += 1;
     }
   } else {
     if (opt->plus && argument_ll > 0) {
       str_part[i] = '+';
-      *n += 1;
       i++;
     } else if (argument_ll < 0) {
       str_part[i] = '-';
-      *n += 1;
       i++;
     } else if (opt -> space == 1) {
       str_part[i] = ' ';
-      *n += 1;
       i++;
     }
     paste_int(str_part, &i, len, argument_ll);
-    *n += len;
   }
   str_part[i] = '\0';
   paste_str_part(str_part, n, str);
@@ -272,36 +262,28 @@ void print_unsigned_int(char *str, int *n, flags *opt, unsigned long long int ar
       i++;
     }
     paste_int(str_part, &i, len, argument_ll);
-    *n += (opt->width_value);
   } else if ((opt -> width == 1) && (opt -> width_value > len) && (opt -> minus == 1)) {
     if (opt->plus && argument_ll > 0) {
       str_part[i] = '+';
-      *n += 1;
       i++;
     } else if (opt -> space == 1) {
       str_part[i] = ' ';
-      *n += 1;
       i++;
     }
     paste_int(str_part, &i, len, argument_ll);
-    *n += len;
     while (i < opt -> width_value) {
         str_part[i] = ' ';
         i++;
-        *n += 1;
     }
   } else {
     if (opt->plus && argument_ll > 0) {
       str_part[i] = '+';
-      *n += 1;
       i++;
     } else if (opt -> space == 1) {
       str_part[i] = ' ';
-      *n += 1;
       i++;
     }
     paste_int(str_part, &i, len, argument_ll);
-    *n += len;
   }
   str_part[i] = '\0';
   paste_str_part(str_part, n, str);
@@ -314,21 +296,17 @@ void print_c(char *str, va_list args, int *n, flags *opt) {
     if (opt -> width == 1 && opt -> width_value > 1) {
         if (opt -> minus == 0) {
             str_part[i] = argument;
-            *n += 1;
             i++;
             for (int j = 0; j < (opt -> width_value) - 1; ++j) {
                 str_part[i] = ' ';
-                *n += 1;
                 i++;
             }
         } else {
             for (int j = 0; j < (opt -> width_value) - 1; ++j) {
                 str_part[i] = ' ';
-                *n += 1;
                 i++;
             }
             str_part[i] = argument;
-            *n += 1;
             i++;
         } 
     }
