@@ -293,7 +293,7 @@ void print_c(char *str, va_list args, int *n, flags *opt) {
     char str_part[1024] = {'\0'};
     int i = 0;
     if (opt -> width == 1 && opt -> width_value > 1) {
-        if (opt -> minus == 0) {
+        if (opt -> minus == 1) {
             str_part[i] = argument;
             i++;
             for (int j = 0; j < (opt -> width_value) - 1; ++j) {
