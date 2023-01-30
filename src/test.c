@@ -95,9 +95,18 @@ START_TEST(s21_strncat_test) {
 }
 END_TEST
 
+START_TEST(s21_sprintf_test) {
+  
+}
+END_TEST
+
 int main() {
   Suite *suite = suite_create("S21_STRING");
   SRunner *srunner = srunner_create(suite);
+
+  TCase *s21_sprintf_tcase = tcase_create("s21_sprintf_test");
+  suite_add_tcase(suite, s21_sprintf_tcase);
+  tcase_add_test(s21_sprintf_tcase, s21_sprintf_test);
 
   TCase *s21_strncmp_tcase = tcase_create("s21_strncmp_test");
   suite_add_tcase(suite, s21_strncmp_tcase);
