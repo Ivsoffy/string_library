@@ -308,6 +308,9 @@ void print_c(char *str, va_list args, int *n, flags *opt) {
             str_part[i] = argument;
             i++;
         } 
+    } else {
+      str_part[i] = argument;
+      i++;
     }
     str_part[i] = '\0';
     paste_str_part(str_part, n, str);
