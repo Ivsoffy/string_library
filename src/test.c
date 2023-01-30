@@ -96,14 +96,47 @@ START_TEST(s21_strncat_test) {
 END_TEST
 
 START_TEST(s21_sprintf_test) {
-    char str1[1024];
-    char str2[1024];
+    char str1[2048];
+    char str2[2048];
     int rv1;
     int rv2;
     rv1 = sprintf(str1, "|%-20.5s% 15dA", "abacaba12345", -123);
     rv2 = s21_sprintf(str2, "|%-20.5s% 15dA", "abacaba12345", -123);
     ck_assert_str_eq(str1, str2);
     ck_assert_int_eq(rv1, rv2);
+    rv1 = sprintf(str1, "%0lu%%%15hd", (long unsigned int)1234567, -123);
+    rv2 = s21_sprintf(str2, "%0lu%%%15hd", (long unsigned int)1234567, -123);
+    ck_assert_str_eq(str1, str2);
+    ck_assert_int_eq(rv1, rv2);
+    rv1 = sprintf(str1, "%d%ld%lld%hd", (int)99999999999,(long int)99999999999,(long long int)99999999999,(short int)99999999999);
+    rv2 = s21_sprintf(str2, "%d%ld%lld%hd", 99999999999,99999999999,99999999999,99999999999);
+    ck_assert_str_eq(str1, str2);
+    ck_assert_int_eq(rv1, rv2);
+    rv1 = sprintf(str1, "%20d%10ld%5lld%33hd", (int)99999999999,(long int)99999999999,(long long int)99999999999,(short int)99999999999);
+    rv2 = s21_sprintf(str2, "%20d%10ld%5lld%33hd", 99999999999,99999999999,99999999999,99999999999);
+    ck_assert_str_eq(str1, str2);
+    ck_assert_int_eq(rv1, rv2);
+    rv1 = sprintf(str1, "%+d% ld%-20lld%-10hd", (int)99999999999,(long int)99999999999,(long long int)99999999999,(short int)99999999999);
+    rv2 = s21_sprintf(str2, "%+d% ld%-20lld%-10hd", 99999999999,99999999999,99999999999,99999999999);
+    ck_assert_str_eq(str1, str2);
+    ck_assert_int_eq(rv1, rv2);
+    rv1 = sprintf(str1, "%-.3s%2c%i", "aboba",'\t', 12345);
+    rv2 = s21_sprintf(str2, "%-.3s%2c%i", "aboba", '\t', 12345);
+    ck_assert_str_eq(str1, str2);
+    ck_assert_int_eq(rv1, rv2);
+    rv1 = sprintf(str1, "%-15.3s%-23c%i", "aboba",'A', 12345);
+    rv2 = s21_sprintf(str2, "%-15.3s%-23c%i", "aboba", 'A', 12345);
+    ck_assert_str_eq(str1, str2);
+    ck_assert_int_eq(rv1, rv2);
+    rv1 = sprintf(str1, "%s%c%i", "aboba",'\t', 12345);
+    rv2 = s21_sprintf(str2, "%s%c%i", "aboba", '\t', 12345);
+    ck_assert_str_eq(str1, str2);
+    ck_assert_int_eq(rv1, rv2);
+    rv1 = sprintf(str1, "%+5d", 25);
+    rv2 = s21_sprintf(str2, "%+5d", 25);
+    ck_assert_str_eq(str1, str2);
+    ck_assert_int_eq(rv1, rv2);
+
 }
 END_TEST
 
