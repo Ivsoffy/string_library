@@ -2,24 +2,16 @@
 
 
 // int main(){
-//     char str1[1024], str2[1024];
-//     s21_sprintf(str1, "% 10.3lf", -123.43025);
-//     printf("\n%s..", str1);
-//     sprintf(str2, "% 10.3lf", -123.43025);
-//     printf("\n%s", str2);
-//     return 0;
-// }
+//   char str111[400];
+//   char str112[400];
+//   char *str113 = "test: %+15.f\ntest: %+#16.f\ntest: %+#18.0f!";
+//   double num = 7648938790.756589;
+//   sprintf(str111, str113, num, num, num);
+//   s21_sprintf(str112, str113, num, num, num);
 
-int main(){
-  char str31[400];
-  char str32[400];
-  char *str33 = "%Lf\n%.Lf!";
-  long double num_long = -76.756589;
-  sprintf(str31, str33, num_long, num_long);
-  s21_sprintf(str32, str33, num_long, num_long);
-  printf("def =%s\ns21 = %s", str31, str32);
-  return 0;
-}
+//   printf("def =%s\ns21 = %s", str111, str112);
+//   return 0;
+// }
 
 
 
