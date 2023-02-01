@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <math.h>
 #define S21_NULL (void *)0
 #define s21_size_t unsigned long int
 #define DEF_VAL 6
@@ -25,6 +26,7 @@ typedef struct option {
     int l;
     int h;
     int L;
+    int flag;
 }flags;
 
 
@@ -36,7 +38,7 @@ void print_specificator(const char *format, int index, char *str, va_list args,
 int take_int(int *index, const char *format);
 void print_d(char *str, va_list args, int *n, flags *opt);
 long long int len_of_int(long long int x);
-void paste_int(char *str_part, int *i, long long int len, long long int argument);
+void paste_int(char *str_part, int *i, long long int len, long long int argument, flags *opt);
 void print_int(char *str, int *n, flags *opt, long long int argument_ll);
 void print_u(char *str, va_list args, int *n, flags *opt);
 void print_unsigned_int(char *str, int *n, flags *opt, unsigned long long int argument_ll);
@@ -45,7 +47,8 @@ void print_s(char *str, va_list args, int *n, flags *opt);
 void paste_str_part(char *str_part, int *n, char *str);
 void print_f(char *str, va_list args, int *n, flags *opt);
 int print_float(char *str, int *n, flags *opt, long double argument_ll);
-void print_flags(char *str_part, int *i, long long int argument, flags *opt);
+void print_flags_i(char *str_part, int *i, long long int argument, flags *opt);
+void print_flags_d(char *str_part, int *i, long double argument, flags *opt);
 
 
 #if defined(__APPLE__)
