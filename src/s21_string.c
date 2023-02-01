@@ -14,17 +14,16 @@ void *s21_memchr(const void *str, int c, s21_size_t n) {
 }
 
 int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
-  // void *rez = S21_NULL;
-  int rez = 0;
-  int breakFlag = 0;
-  char c;
-  for (s21_size_t i = 0; i < n && breakFlag == 0; i++) {
-    if (*((char *)str1 + i) == c) {
-      rez = (char *)str2 + i;
-      breakFlag = 1;
+    unsigned char *s1 = (unsigned char *)str1;
+    unsigned char *s2 = (unsigned char *)str2;
+    int rez = 0;
+    for (s21_size_t i = 0; i < n; i++) {
+        rez = *s1 - *s2;
+        if (*s1 != *s2) break;
+        s1++;
+        s2++;
     }
-  }
-  return rez;
+    return rez;
 }
 
 void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
