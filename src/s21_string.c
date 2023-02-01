@@ -32,9 +32,9 @@ s21_size_t s21_strspn(const char *str1, const char *str2) {
     const char *ptr1;
     const char *ptr2;
 
-    for (ptr1 = str1; *ptr1 & exit_flag == 0; ptr1++) {
+    for (ptr1 = str1; *ptr1 && exit_flag == 0; ptr1++) {
         for (ptr2 = str2; ; ptr2++) {
-            if (&ptr2 == '\0') {
+            if (*ptr2 == '\0') {
                 result = (ptr1 - str1);
                 exit_flag = 1;
                 break;
@@ -82,7 +82,7 @@ char *s21_strtok(char *str, const char *delim) {
     static char *last;
     // register int ch;
 
-    if (*str == S21_NULL && delim != S21_NULL) {
+    if (str == S21_NULL && delim != S21_NULL) {
         str = last;
     }
     if (str != S21_NULL && delim != S21_NULL) {
