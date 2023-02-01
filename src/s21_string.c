@@ -14,16 +14,17 @@ void *s21_memchr(const void *str, int c, s21_size_t n) {
 }
 
 int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
-    unsigned char *s1 = (unsigned char *)str1;
-    unsigned char *s2 = (unsigned char *)str2;
-    int rez = 0;
-    for (s21_size_t i = 0; i < n; i++) {
-        rez = *s1 - *s2;
-        if (*s1 != *s2) break;
-        s1++;
-        s2++;
-    }
-    return rez;
+  unsigned char *s1 = (unsigned char *)str1;
+  unsigned char *s2 = (unsigned char *)str2;
+  int rez = 0;
+  for (s21_size_t i = 0; i < n; i++) {
+    rez = *s1 - *s2;
+    if (*s1 != *s2)
+      break;
+    s1++;
+    s2++;
+  }
+  return rez;
 }
 
 void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
@@ -229,9 +230,9 @@ s21_size_t s21_strspn(const char *str1, const char *str2) {
   const char *ptr1;
   const char *ptr2;
 
-  for (ptr1 = str1; *ptr1 & exit_flag == 0; ptr1++) {
+  for (ptr1 = str1; *ptr1 && exit_flag == 0; ptr1++) {
     for (ptr2 = str2;; ptr2++) {
-      if (&ptr2 == '\0') {
+      if (*ptr2 == '\0') {
         result = (ptr1 - str1);
         exit_flag = 1;
         break;
@@ -279,7 +280,7 @@ char *s21_strtok(char *str, const char *delim) {
   static char *last;
   // register int ch;
 
-  if (*str == S21_NULL && delim != S21_NULL) {
+  if (str == S21_NULL && delim != S21_NULL) {
     str = last;
   }
   if (str != S21_NULL && delim != S21_NULL) {
