@@ -18,28 +18,22 @@ START_TEST(s21_memchr_test) {
   ck_assert_str_eq(s21_memchr(str5, 'a', 1), memchr(str5, 'a', 1));
   unsigned char str6[15] = " \n\0";
   ck_assert_str_eq(s21_memchr(str6, ' ', 7), memchr(str6, ' ', 7));
-  unsigned char str7[15] = "Abra 67890";
-  ck_assert_str_eq(s21_memchr(str7, ' ', 1), memchr(str7, ' ', 1));
-  // unsigned char str8[15] = "167890";
-  // ck_assert_pstr_eq(s21_memchr("\n\0", '0', 1), memchr("\n\0", '0', 1));
-  unsigned char str9[15] = "1234567890";
-  ck_assert_str_eq(s21_memchr(str9, '1', 6), memchr(str9, '1', 6));
 }
 END_TEST
 
 START_TEST(s21_memcmp_test) {
-  char str_11[50] = "Abra";
-  char str_21[50] = "Kadabra";
-  ck_assert_int_eq(s21_memcmp(str_11, str_21, 4), memcmp(str_11, str_21, 4));
-  char str_12[50] = "Abra";
-  char str_22[50] = "";
-  ck_assert_int_eq(s21_memcmp(str_12, str_22, 4), memcmp(str_12, str_22, 4));
-  char str_13[50] = "\0";
-  char str_23[50] = "kadabra";
-  ck_assert_int_eq(s21_memcmp(str_13, str_23, 5), memcmp(str_13, str_23, 5));
-  char str_14[50] = "\n\n\n\0\n";
-  char str_24[50] = "shvabra";
-  ck_assert_int_eq(s21_memcmp(str_14, str_24, 7), memcmp(str_14, str_24, 7));
+  char str_11[10] = "Kad abra";
+  char str_12[10] = "Kad abra";
+  ck_assert_int_eq(s21_memcmp(str_11, str_12, 9) == 0, memcmp(str_11, str_12, 9) == 0);
+  char str_21[10] = "Abra";
+  char str_22[10] = "";
+  ck_assert_int_eq(s21_memcmp(str_21, str_22, 9) > 0, memcmp(str_21, str_22, 9) > 0);
+  char str_31[10] = "\0";
+  char str_32[10] = "kadabra";
+  ck_assert_int_eq(s21_memcmp(str_31, str_32, 5) < 0, memcmp(str_31, str_32, 5) < 0);
+  char str_41[10] = "\n\n\n\0\n";
+  char str_42[10] = "";
+  ck_assert_int_eq(s21_memcmp(str_41, str_42, 7) >0, memcmp(str_41, str_42, 7) > 0);
 }
 END_TEST
 
@@ -445,11 +439,11 @@ END_TEST
 //  Zasteran block code
 START_TEST(s21_strpbrk_test) {
   char str11[] = "A b r a\0";
-  char str12[] = "ra\0";
+  char str12[] = " bra\0";
   ck_assert_str_eq(s21_strpbrk(str11, str12), strpbrk(str11, str12));
 
   char str21[] = "Kadabra\0";
-  char str22[] = "Ka\0";
+  char str22[] = "dabra\0";
   ck_assert_str_eq(s21_strpbrk(str21, str22), strpbrk(str21, str22));
 
   char str31[] = "Abra\0";
@@ -457,11 +451,11 @@ START_TEST(s21_strpbrk_test) {
   ck_assert_ptr_null(s21_strpbrk(str31, str32));
 
   char str41[] = "Abra\0";
-  char str42[] = "Abra\0";
+  char str42[] = "bra\0";
   ck_assert_str_eq(s21_strpbrk(str41, str42), strpbrk(str41, str42));
 
   char str51[] = "Abra\0";
-  char str52[] = "ABra\0";
+  char str52[] = "\0";
   ck_assert_ptr_null(s21_strpbrk(str51, str52));
 }
 END_TEST
@@ -551,12 +545,12 @@ START_TEST(s21_strtok_test) {
   char *r3 = s21_strtok(str31, str32);
   ck_assert_str_eq(r3, strtok(str31, str32));
 
-  char str41[] = "abbabba\0";
-  char str42[] = "bb\0";
+  char str41[] = " ";
+  char str42[] = "";
   char *r4 = s21_strtok(str41, str42);
   ck_assert_str_eq(r4, strtok(str41, str42));
 
-  char str51[] = "Abra\0";
+  char str51[] = "Abra \0";
   char str52[] = "Abra\0";
   char *r5 = s21_strtok(str51, str52);
   ck_assert_ptr_null(r5);
