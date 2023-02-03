@@ -1,13 +1,19 @@
 #include "s21_string.h"
 
-int main(){
-    char str1[200];
-    char str2[200];
-    s21_sprintf(str1, "%.3f", -0.0);
-    sprintf(str2, "%.3f", -0.0);
-    printf("s21 =%s\nn21 =%s", str1, str2);
-    return 0;
-}
+// int main(){
+//   char str231[400];
+//   char str232[400];
+//   char str130[400];
+//   // s21_sprintf(str130, "%+15.0f", 120.678);
+//   char *str233 = "test: %+- 14f!\ntest: %+ 10f!\ntest: % +25f!";
+//   double num = -365789.34;
+//   // printf("%ld\n",(int)(round(num)));
+//   sprintf(str231, str232, num, num, num);
+//   s21_sprintf(str232, str233, num, num, num);
+//   // printf("===%s\n", str130);
+//   printf("s21 =%s\nn21 =%s",str232,str231);
+//   return 0;
+// }
 
 void print_f(char *str, va_list args, int *n, flags *opt) {
   long double argument_ll;
@@ -193,7 +199,7 @@ int print_float(char *str, int *n, flags *opt, long double argument_ll){
     pw++;
   }
   if ((!opt->accuracy_value)&&(opt->accuracy)){
-    f_digit = (int)(round(argument_ll));
+    f_digit = (long int)(round(argument_ll));
   }else{
     f_digit = (long int)first;
   }

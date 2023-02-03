@@ -52,7 +52,7 @@ void print_flags_d(char *str_part, int *i, long double argument, flags *opt);
 
 
 #if defined(__APPLE__)
-#define ERRORLIST                                                              \
+#define ERRORLIST                                                          \
   {                                                                        \
     "Undefined error: 0", "Operation not permitted",                       \
     "No such file or directory", "No such process",                        \
@@ -101,7 +101,7 @@ void print_flags_d(char *str_part, int *i, long double argument, flags *opt);
     "No STREAM resources", "Not a STREAM", "Protocol error",               \
     "STREAM ioctl timeout", "Operation not supported on socket",           \
     "Policy not found", "State not recoverable", "Previous owner died",    \
-    "Interface output queue is full", "Unknown error"                      \
+    "Interface output queue is full"                                       \
   }
 
 #else

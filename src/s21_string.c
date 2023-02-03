@@ -1,5 +1,10 @@
 #include "s21_string.h"
 
+// int main(){
+//   printf("%s", s21_strerror(134));
+//   return 0;
+// }
+
 char *s21_strcpy(char *dest, const char *src) {
   char *cp = dest;
   while (*src) {
@@ -54,11 +59,12 @@ size_t s21_strcspn(const char *str1, const char *str2){
 char* s21_strerror(int errnum) {
     char* err[] = ERRORLIST;
     static char rez[100];
-    int max = (*err[0]=='S') ? 107 : 133;
-    if (errnum > 0 && errnum <= max) {
+    int max = (*err[0]=='S') ? 133 : 106;
+    if (errnum >= 0 && errnum <= max) {
         s21_strcpy(rez, err[errnum]);
     } else {
-        sprintf(rez, "%s %d", "Unknown error:", errnum); //change to s21_spintf
+        s21_sprintf(rez, "%s%d", "Unknown error: ", errnum); //change to s21_spintf
     }
     return rez;
 }
+
