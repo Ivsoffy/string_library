@@ -49,6 +49,10 @@ void print_f(char *str, va_list args, int *n, flags *opt);
 int print_float(char *str, int *n, flags *opt, long double argument_ll);
 void print_flags_i(char *str_part, int *i, long long int argument, flags *opt);
 void print_flags_d(char *str_part, int *i, long double argument, flags *opt);
+void* s21_trim(const char* src, const char* trim_chars);
+void* s21_to_upper(const char* str);
+void* s21_to_lower(const char* str);
+void* s21_insert(const char *src, const char *str, size_t start_index);
 
 
 #if defined(__APPLE__)
