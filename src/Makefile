@@ -20,8 +20,8 @@ test: test.o s21_string.a
 test.o:
 	gcc $(CFLAGS) test.c -o test.o
 
-s21_string.a: s21_string.o
-	ar rcs s21_string.a s21_string.o
+s21_string.a: s21_string.o s21_sprintf.o
+	ar rcs s21_string.a s21_string.o s21_sprintf.o
 	ranlib s21_string.a
 	rm s21_string.o
 
