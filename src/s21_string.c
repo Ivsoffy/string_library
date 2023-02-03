@@ -57,7 +57,7 @@ void *s21_memset(void *str, int c, s21_size_t n) {
     i++;
     n--;
   }
-  return istr;
+return istr;
 }
 
 // Vileplme block code
@@ -192,7 +192,7 @@ char *s21_strerror(int errnum) {
   if (errnum >= 0 && errnum <= max) {
     s21_strcpy(rez, err[errnum]);
   } else {
-    s21_sprintf(rez, "%s%d", "Unknown error: ", errnum); // change to s21_spintf
+    s21_sprintf(rez, "%s%d", "Unknown error ", errnum); // change to s21_spintf
   }
   return rez;
 }
