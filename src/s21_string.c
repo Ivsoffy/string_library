@@ -156,17 +156,17 @@ char *s21_strncpy(char *dest, const char *src, size_t n) {
   return cp;
 }
 
-s21_size_t s21_strlen(const char *str) {
-  s21_size_t len = 0;
+size_t s21_strlen(const char *str) {
+  size_t len = 0;
   while (*(str++)) {
     len++;
   }
   return len;
 }
 
-s21_size_t s21_strcspn(const char *str1, const char *str2) {
-  s21_size_t rez = 0;
-  s21_size_t cnt = 0;
+size_t s21_strcspn(const char *str1, const char *str2) {
+  size_t rez = 0;
+  size_t cnt = 0;
   int i = 0, j = 0;
   while ((str1[i]) && ((int)cnt != -1)) {
     j = 0;
@@ -188,11 +188,11 @@ s21_size_t s21_strcspn(const char *str1, const char *str2) {
 char *s21_strerror(int errnum) {
   char *err[] = ERRORLIST;
   static char rez[100];
-  int max = (*err[0] == 'S') ? 107 : 133;
-  if (errnum > 0 && errnum <= max) {
+  int max = (*err[0] == 'S') ? 133 : 106;
+  if (errnum >= 0 && errnum <= max) {
     s21_strcpy(rez, err[errnum]);
   } else {
-    sprintf(rez, "%s %d", "Unknown error:", errnum); // change to s21_spintf
+    s21_sprintf(rez, "%s%d", "Unknown error: ", errnum); // change to s21_spintf
   }
   return rez;
 }
