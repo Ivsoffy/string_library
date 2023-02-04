@@ -200,7 +200,6 @@ START_TEST(s21_strncat_test) {
 }
 END_TEST
 
-
 // Errokele block code
 START_TEST(s21_strcspn_test) {
   char s01[] = "test started";
@@ -696,7 +695,7 @@ START_TEST(s21_strtok_test) {
   //  char str52[] = "Abra\0";
   //  char *r5 = s21_strtok(str51, str52);
   //  ck_assert_ptr_null(r5);
-  
+
   // free(r1);
   // free(r2);
   // free(r3);

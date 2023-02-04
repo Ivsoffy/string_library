@@ -5,12 +5,10 @@
 #define s21_size_t unsigned long int
 #define DEF_VAL 6
 
-#include <stdio.h>
-// убрать потом
 #include <math.h>
 #include <stdarg.h>
+#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 void *s21_memchr(const void *str, int c, s21_size_t n);
 int s21_memcmp(const void *str1, const void *str2, s21_size_t n);

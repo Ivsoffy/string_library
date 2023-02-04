@@ -9,7 +9,7 @@ void print_f(char *str, va_list args, int *n, flags *opt) {
 
 int s21_sprintf(char *str, const char *format, ...) {
   int rv_count = 0;
-  int length = strlen(format);
+  int length = s21_strlen(format);
   va_list(args);
   va_start(args, format);
   flags opt;
@@ -222,7 +222,7 @@ int print_float(char *str, int *n, flags *opt, long double argument_ll) {
     }
     paste_int(str_part, &i, len_f, f_digit, opt);
     if (!((!(opt->accuracy_value)) && (opt->accuracy))) {
-      strcat(str_part, ".");
+      s21_strcat(str_part, ".");
       i++;
       paste_int(str_part, &i, len_s, s_digit, opt);
     }
@@ -231,7 +231,7 @@ int print_float(char *str, int *n, flags *opt, long double argument_ll) {
     print_flags_d(str_part, &i, argument_ll, opt);
     paste_int(str_part, &i, len_f, f_digit, opt);
     if (!((!(opt->accuracy_value)) && (opt->accuracy))) {
-      strcat(str_part, ".");
+      s21_strcat(str_part, ".");
       i++;
       paste_int(str_part, &i, len_s, s_digit, opt);
     }
@@ -244,7 +244,7 @@ int print_float(char *str, int *n, flags *opt, long double argument_ll) {
     print_flags_d(str_part, &i, argument_ll, opt);
     paste_int(str_part, &i, len_f, f_digit, opt);
     if (!((!(opt->accuracy_value)) && (opt->accuracy))) {
-      strcat(str_part, ".");
+      s21_strcat(str_part, ".");
       i++;
       paste_int(str_part, &i, len_s, s_digit, opt);
     }
@@ -271,7 +271,7 @@ void print_flags_d(char *str_part, int *i, long double argument, flags *opt) {
   if (opt->plus && argument > 0) {
     str_part[*i] = '+';
     *i += 1;
-  } else if ((argument < 0) || (argument == -0.0)) {  //??
+  } else if (argument < 0) {
     str_part[*i] = '-';
     *i += 1;
   } else if (opt->space == 1) {
@@ -405,7 +405,7 @@ void print_s(char *str, va_list args, int *n, flags *opt) {
     argument = "(null)";
   }
   char str_part[2048];
-  int len = strlen(argument);
+  int len = s21_strlen(argument);
   if (opt->accuracy == 1 && opt->accuracy_value < len) {
     len = opt->accuracy_value;
   }
@@ -441,10 +441,9 @@ void print_s(char *str, va_list args, int *n, flags *opt) {
 }
 
 void paste_str_part(char *str_part, int *n, char *str) {
-  int len_part = strlen(str_part);
+  int len_part = s21_strlen(str_part);
   for (int j = 0; j < len_part; ++j) {
     str[*n] = str_part[j];
     *n += 1;
   }
 }
-
