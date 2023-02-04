@@ -664,23 +664,23 @@ START_TEST(s21_strstr_test) {
   char str42[] = "\0";
   ck_assert_str_eq(s21_strstr(str41, str42), strstr(str41, str42));
 
-  char str51[] = "Abra\0";
-  char str52[] = "Abra\0";
-  ck_assert_str_eq(s21_strstr(str51, str52), strstr(str51, str52));
+  char s51[] = "Abra\0";
+  char s52[] = "Abra\0";
+  ck_assert_str_eq(s21_strstr(s51, s52), strstr(s51, s52));
 }
 END_TEST
 
-START_TEST(test_s21_strtok) {
-  char str1[25] = "school21 is the best";
-  char str2[25] = "school21 is the best";
-  char *token1 = strtok(str1, " ");
-  char *token2 = s21_strtok(str2, " ");
-  while (token1 != NULL && token2 != NULL) {
-    ck_assert_str_eq(token1, token2);
-    token1 = strtok(NULL, " ");
-    token2 = s21_strtok(NULL, " ");
+START_TEST(s21_strtok_test) {
+  char str1[25] = "1234567 89 76 5432";
+  char str2[25] = "1234567 89 76 5432";
+  char *r1 = strtok(str1, " ");
+  char *r2 = s21_strtok(str2, " ");
+  while (r1 != NULL && r2 != NULL) {
+    ck_assert_str_eq(r1, r2);
+    r1 = strtok(NULL, " ");
+    r2 = s21_strtok(NULL, " ");
   }
-  ck_assert_ptr_eq(token1, token2);
+  ck_assert_ptr_eq(r1, r2);
 }
 END_TEST
 
