@@ -19,8 +19,7 @@ int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
   int rez = 0;
   for (s21_size_t i = 0; i < n; i++) {
     rez = *s1 - *s2;
-    if (*s1 != *s2)
-      break;
+    if (*s1 != *s2) break;
     s1++;
     s2++;
   }
@@ -57,7 +56,7 @@ void *s21_memset(void *str, int c, s21_size_t n) {
     i++;
     n--;
   }
-return istr;
+  return istr;
 }
 
 // Vileplme block code
@@ -177,8 +176,7 @@ size_t s21_strcspn(const char *str1, const char *str2) {
       }
       j++;
     }
-    if ((int)cnt != -1)
-      cnt++;
+    if ((int)cnt != -1) cnt++;
     i++;
   }
   rez = s21_strlen(str2) ? rez : s21_strlen(str1);
@@ -192,7 +190,8 @@ char *s21_strerror(int errnum) {
   if (errnum >= 0 && errnum <= max) {
     s21_strcpy(rez, err[errnum]);
   } else {
-    s21_sprintf(rez, "%s%d", "Unknown error: ", errnum); // change to s21_spintf
+    s21_sprintf(rez, "%s%d",
+                "Unknown error: ", errnum);  // change to s21_spintf
   }
   return rez;
 }

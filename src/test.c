@@ -627,13 +627,13 @@ START_TEST(s21_sprintf_test) {
   ck_assert_int_eq(sprintf(str221, str223, num, num, num),
                    s21_sprintf(str222, str223, num, num, num));
   ck_assert_pstr_eq(str1, str2);
-    char str231[400];
-    char str232[400];
-    char *str233 = "test: %+- 14f!\ntest: %+ 10f!\ntest: % +25f!";
-    num = -365789.34;
-    ck_assert_int_eq(sprintf(str231, str233, num, num, num),
-                     s21_sprintf(str232, str233, num, num, num));
-    ck_assert_pstr_eq(str231, str232);
+  char str231[400];
+  char str232[400];
+  char *str233 = "test: %+- 14f!\ntest: %+ 10f!\ntest: % +25f!";
+  num = -365789.34;
+  ck_assert_int_eq(sprintf(str231, str233, num, num, num),
+                   s21_sprintf(str232, str233, num, num, num));
+  ck_assert_pstr_eq(str231, str232);
 
   char str241[400];
   char str242[400];
@@ -774,16 +774,16 @@ START_TEST(s21_strtok_test) {
   char *r4 = s21_strtok(str41, str42);
   ck_assert_str_eq(r4, strtok(str41, str42));
 
-//  char str51[] = "Abra \0";
-//  char str52[] = "Abra\0";
-//  char *r5 = s21_strtok(str51, str52);
-//  ck_assert_ptr_null(r5);
-//
-  free(r1);
-  free(r2);
-  free(r3);
-  free(r4);
-//  free(r5);
+  //  char str51[] = "Abra \0";
+  //  char str52[] = "Abra\0";
+  //  char *r5 = s21_strtok(str51, str52);
+  //  ck_assert_ptr_null(r5);
+  //
+  // free(r1);
+  // free(r2);
+  // free(r3);
+  // free(r4);
+  //  free(r5);
 }
 END_TEST
 
@@ -811,7 +811,7 @@ int main() {
   suite_add_tcase(suite, s21_memset_tcase);
   tcase_add_test(s21_memset_tcase, s21_memset_test);
   // Vileplme block code
-    TCase *s21_strncmp_tcase = tcase_create("s21_strncmp_test");
+  TCase *s21_strncmp_tcase = tcase_create("s21_strncmp_test");
   suite_add_tcase(suite, s21_strncmp_tcase);
   tcase_add_test(s21_strncmp_tcase, s21_strncmp_test);
 

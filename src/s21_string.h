@@ -7,10 +7,10 @@
 
 #include <stdio.h>
 // убрать потом
+#include <math.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
 
 void *s21_memchr(const void *str, int c, s21_size_t n);
 int s21_memcmp(const void *str1, const void *str2, s21_size_t n);
@@ -36,22 +36,21 @@ char *s21_strtok(char *str, const char *delim);
 // sprintf
 
 typedef struct option {
-    int work;
-    int minus;
-    int plus;
-    int space;
-    int width;
-    int width_value;
-    int accuracy;
-    int accuracy_value;
-    int l;
-    int h;
-    int L;
-    int flag;
-}flags;
+  int work;
+  int minus;
+  int plus;
+  int space;
+  int width;
+  int width_value;
+  int accuracy;
+  int accuracy_value;
+  int l;
+  int h;
+  int L;
+  int flag;
+} flags;
 
-
-int s21_sprintf(char* str, const char* format, ...);
+int s21_sprintf(char *str, const char *format, ...);
 void update_opt(flags *opt);
 void check_opt(flags *opt, int *index, const char *format);
 void print_specificator(const char *format, int index, char *str, va_list args,
@@ -59,10 +58,12 @@ void print_specificator(const char *format, int index, char *str, va_list args,
 int take_int(int *index, const char *format);
 void print_d(char *str, va_list args, int *n, flags *opt);
 long long int len_of_int(long long int x);
-void paste_int(char *str_part, int *i, long long int len, long long int argument, flags *opt);
+void paste_int(char *str_part, int *i, long long int len,
+               long long int argument, flags *opt);
 void print_int(char *str, int *n, flags *opt, long long int argument_ll);
 void print_u(char *str, va_list args, int *n, flags *opt);
-void print_unsigned_int(char *str, int *n, flags *opt, unsigned long long int argument_ll);
+void print_unsigned_int(char *str, int *n, flags *opt,
+                        unsigned long long int argument_ll);
 void print_c(char *str, va_list args, int *n, flags *opt);
 void print_s(char *str, va_list args, int *n, flags *opt);
 void paste_str_part(char *str_part, int *n, char *str);
@@ -70,11 +71,10 @@ void print_f(char *str, va_list args, int *n, flags *opt);
 int print_float(char *str, int *n, flags *opt, long double argument_ll);
 void print_flags_i(char *str_part, int *i, long long int argument, flags *opt);
 void print_flags_d(char *str_part, int *i, long double argument, flags *opt);
-void* s21_trim(const char* src, const char* trim_chars);
-void* s21_to_upper(const char* str);
-void* s21_to_lower(const char* str);
-void* s21_insert(const char *src, const char *str, size_t start_index);
-
+void *s21_trim(const char *src, const char *trim_chars);
+void *s21_to_upper(const char *str);
+void *s21_to_lower(const char *str);
+void *s21_insert(const char *src, const char *str, size_t start_index);
 
 #if defined(__APPLE__)
 #define ERRORLIST                                                              \
@@ -197,4 +197,4 @@ void* s21_insert(const char *src, const char *str, size_t start_index);
   }
 #endif
 
-#endif // SRC_S21_STRING_H_
+#endif  // SRC_S21_STRING_H_
