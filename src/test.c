@@ -670,14 +670,17 @@ START_TEST(s21_strstr_test) {
 }
 END_TEST
 
-START_TEST(s21_strtok_test) {
-  char str1[30] = "Abra kadanra,123.456";
-  char str2[30] = "Abra kadanra,123.456";
-  ck_assert_int_eq(strcmp(s21_strtok(str1, " .,"), strtok(str2, " .,")), 0);
-  ck_assert_int_eq(strcmp(s21_strtok(NULL, " .,"), strtok(NULL, " .,")), 0);
-  ck_assert_int_eq(strcmp(s21_strtok(NULL, " .,"), strtok(NULL, " .,")), 0);
-  ck_assert_int_eq(strcmp(s21_strtok(NULL, " .,"), strtok(NULL, " .,")), 0);
-  ck_assert_msg(s21_strtok(NULL, " .,") == strtok(NULL, " .,"), "FAILURE!");
+START_TEST(test_s21_strtok) {
+  char str1[25] = "school21 is the best";
+  char str2[25] = "school21 is the best";
+  char *token1 = strtok(str1, " ");
+  char *token2 = s21_strtok(str2, " ");
+  while (token1 != NULL && token2 != NULL) {
+    ck_assert_str_eq(token1, token2);
+    token1 = strtok(NULL, " ");
+    token2 = s21_strtok(NULL, " ");
+  }
+  ck_assert_ptr_eq(token1, token2);
 }
 END_TEST
 
