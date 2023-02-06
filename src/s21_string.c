@@ -57,7 +57,7 @@ void *s21_memset(void *str, int c, s21_size_t n) {
     i++;
     n--;
   }
-return istr;
+  return istr;
 }
 
 // Vileplme block code
@@ -142,7 +142,7 @@ char *s21_strcpy(char *dest, const char *src) {
   return cp;
 }
 
-char *s21_strncpy(char *dest, const char *src, size_t n) {
+char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
   char *cp = dest;
   int i = 0;
   while (i < (int)n) {
@@ -156,17 +156,17 @@ char *s21_strncpy(char *dest, const char *src, size_t n) {
   return cp;
 }
 
-size_t s21_strlen(const char *str) {
-  size_t len = 0;
+s21_size_t s21_strlen(const char *str) {
+  s21_size_t len = 0;
   while (*(str++)) {
     len++;
   }
   return len;
 }
 
-size_t s21_strcspn(const char *str1, const char *str2) {
-  size_t rez = 0;
-  size_t cnt = 0;
+s21_size_t s21_strcspn(const char *str1, const char *str2) {
+  s21_size_t rez = 0;
+  s21_size_t cnt = 0;
   int i = 0, j = 0;
   while ((str1[i]) && ((int)cnt != -1)) {
     j = 0;
@@ -192,10 +192,29 @@ char *s21_strerror(int errnum) {
   if (errnum >= 0 && errnum <= max) {
     s21_strcpy(rez, err[errnum]);
   } else {
-    s21_sprintf(rez, "%s%d", "Unknown error ", errnum); // change to s21_spintf
+#if defined(__APPLE__)
+    s21_sprintf(rez, "%s%d", "Unknown error: ", errnum);
+#elif defined(__linux__)
+    s21_sprintf(rez, "%s%d", "Unknown error ", errnum);
+#endif
+
+    ; // change to s21_spintf
   }
   return rez;
 }
+
+// char *s21_strerror(int errnum) {
+//   char *err[] = ERRORLIST;
+//   static char rez[100];
+//   int max = (*err[0] == 'S') ? 133 : 106;
+//   if (errnum >= 0 && errnum <= max) {
+//     s21_strcpy(rez, err[errnum]);
+//   } else {
+//     s21_sprintf(rez, "%s%d",
+//                 "Unknown error ", errnum);  // change to s21_spintf
+//   }
+//   return rez;
+// }
 
 // Zasteran block code
 char *s21_strpbrk(const char *str1, const char *str2) {
@@ -276,22 +295,20 @@ char *s21_strstr(const char *haystack, const char *needle) {
 
 char *s21_strtok(char *str, const char *delim) {
   char *result = S21_NULL;
-  // int exit_flag = 0;
-  static char *last;
-  // register int ch;
+  static char *last = S21_NULL;
 
   if (str == S21_NULL && delim != S21_NULL) {
     str = last;
   }
   if (str != S21_NULL && delim != S21_NULL) {
     s21_size_t str1 = 0, str2 = 0;
-    for (; str[str1] && str[str2] != delim[str2]; str2++) {
+    for (; str[str1] && str[str1] != delim[str2]; str2++) {
       if (delim[str2] == '\0') {
         str1++;
         str2 = -1;
       }
     }
-    if (str[str1] == '\0' || str[str1 + 1] == '\0') {
+    if ((str[str1] == '\0') || (str[str1 + 1] == '\0')) {
       str[str1] = '\0';
       last = S21_NULL;
     } else {
@@ -301,4 +318,84 @@ char *s21_strtok(char *str, const char *delim) {
     result = str;
   }
   return result;
+}
+
+// доп функции
+
+void *s21_trim(const char *src, const char *trim_chars) {
+  char *rv = S21_NULL;
+  if (src != S21_NULL && trim_chars != S21_NULL) {
+    char *start_ptr = (char *)src;
+    char *end_ptr = (char *)src + s21_strlen(src);
+    while (start_ptr != S21_NULL && s21_strchr(trim_chars, *start_ptr)) {
+      start_ptr++;
+    }
+    while (end_ptr != S21_NULL && s21_strchr(trim_chars, *(end_ptr - 1))) {
+      end_ptr--;
+    }
+    rv = (char *)malloc(end_ptr - start_ptr + 1);
+    if (rv != S21_NULL) {
+      s21_strncpy(rv, start_ptr, end_ptr - start_ptr);
+      *(rv + (end_ptr - start_ptr)) = '\0';
+    }
+  }
+  return rv;
+}
+
+void *s21_to_upper(const char *str) {
+  char *rv = S21_NULL;
+  if (str != S21_NULL) {
+    int len = s21_strlen(str);
+    rv = (char *)malloc((len + 1));
+    if (rv != S21_NULL) {
+      s21_strcpy(rv, str);
+      char *ptr = rv;
+      while (*ptr) {
+        if (*ptr >= 'a' && *ptr <= 'z') {
+          *ptr -= 32;
+        }
+        ptr++;
+      }
+    }
+  }
+  return rv;
+}
+
+void *s21_to_lower(const char *str) {
+  char *rv = S21_NULL;
+  if (str != S21_NULL) {
+    int len = s21_strlen(str);
+    rv = (char *)malloc((len + 1));
+    if (rv != S21_NULL) {
+      s21_strcpy(rv, str);
+      char *ptr = rv;
+      while (*ptr) {
+        if (*ptr >= 'A' && *ptr <= 'Z') {
+          *ptr += 32;
+        }
+        ptr++;
+      }
+    }
+  }
+  return rv;
+}
+
+void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
+  char *rv = S21_NULL;
+  if (src != S21_NULL && str != S21_NULL) {
+    int len_src = s21_strlen(src);
+    int len_str = s21_strlen(str);
+    if (len_src >= (int)start_index) {
+      rv = malloc(len_src + len_str + 1);
+    }
+    char *ptr = rv;
+    if (rv) {
+      s21_strncpy(rv, src, start_index);
+      ptr += start_index;
+      s21_strcpy(ptr, str);
+      ptr += len_str;
+      s21_strcpy(ptr, src + start_index);
+    }
+  }
+  return rv;
 }
