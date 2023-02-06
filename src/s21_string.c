@@ -16,39 +16,39 @@ char *s21_strpbrk(const char *str1, const char *str2) {
 }
 
 char *s21_strrchr(const char *str, int c) {
-    char *result = S21_NULL;
-    while (*str != '\0') {
-        if (*str == (unsigned char)c) {
-            result = (char *)str;
-        }
-        str++;
+  char tp = c;
+  char *result = S21_NULL;
+  for (; *str != '\0'; str++) {  
+    if (*str == tp) {
+      result = (char *)str;
     }
-    return result;
+  }
+  if (result == S21_NULL) {
+    result = (char *)str;
+  }
+  return *result == c ? (char *)result : S21_NULL;
 }
 
 s21_size_t s21_strspn(const char *str1, const char *str2) {
-    s21_size_t result = 0;
-    int exit_flag = 0;
-    const char *ptr1;
-    const char *ptr2;
+  s21_size_t result = 0;
+  int exit_flag = 0;
+  const char *ptr1;
+  const char *ptr2;
 
-    for (ptr1 = str1; *ptr1 && exit_flag == 0; ptr1++) {
-        for (ptr2 = str2; ; ptr2++) {
-            if (*ptr2 == '\0') {
-                result = (ptr1 - str1);
-                exit_flag = 1;
-                break;
-            } else {
-                if (*ptr1 == *ptr2) {
-                    break;
-                }
-            }
-        }
-    }
-    if (exit_flag == 0) {
+  for (ptr1 = str1; *ptr1 && exit_flag == 0; ptr1++) {
+    for (ptr2 = str2;; ptr2++) {
+      if (*ptr2 == '\0') {
         result = (ptr1 - str1);
+        exit_flag = 1;
+        break;
+      } else {
+        if (*ptr1 == *ptr2) {
+          break;
+        }
+      }
     }
-    return result;
+  }
+  return result;
 }
 
 char *s21_strstr(const char *haystack, const char *needle) {
@@ -78,9 +78,7 @@ char *s21_strstr(const char *haystack, const char *needle) {
 
 char *s21_strtok(char *str, const char *delim) {
     char *result = S21_NULL;
-    // int exit_flag = 0;
     static char *last;
-    // register int ch;
 
     if (str == S21_NULL && delim != S21_NULL) {
         str = last;
