@@ -52,7 +52,7 @@ clang_update:
 	clang-format -i -style=google *.c *.h
 
 leak:
-ifeq ($(OS),Darwin)
+ifeq ($(UNAME),Darwin)
 	CK_FORK=no leaks -atExit -- ./test
 else
 	valgrind --leak-check=full -s --track-origins=yes ./test
