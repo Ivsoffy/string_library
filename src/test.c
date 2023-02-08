@@ -4,7 +4,6 @@
 
 #include "s21_string.h"
 
-//  Otheymal block code
 START_TEST(s21_memchr_test) {
   unsigned char str1[15] = "1234567890";
   ck_assert_str_eq(s21_memchr(str1, '3', 3), memchr(str1, '3', 3));
@@ -108,7 +107,6 @@ START_TEST(s21_memset_test) {
 }
 END_TEST
 
-// Vileplme block code
 START_TEST(s21_strncmp_test) {
   ck_assert_int_eq(strncmp("bebra", "e", 1), s21_strncmp("bebra", "e", 1));
   ck_assert_int_eq(strncmp("bebra", "e", 6), s21_strncmp("bebra", "e", 6));
@@ -200,7 +198,6 @@ START_TEST(s21_strncat_test) {
 }
 END_TEST
 
-// Errokele block code
 START_TEST(s21_strcspn_test) {
   char s01[] = "test started";
   char s02[] = "start";
@@ -577,7 +574,6 @@ START_TEST(s21_sprintf_test) {
 }
 END_TEST
 
-//  Zasteran block code
 START_TEST(s21_strpbrk_test) {
   char str11[] = "A b r a\0";
   char str12[] = " bra\0";
@@ -602,25 +598,28 @@ START_TEST(s21_strpbrk_test) {
 END_TEST
 
 START_TEST(s21_strrchr_test) {
-  char str11[] = "A b r a\0";
-  char str12[] = "Kadabra ";
-  ck_assert_int_eq(s21_strspn(str11, str12), strspn(str11, str12));
+  char str1[11] = "0123456789";
+  ck_assert_ptr_eq(s21_strrchr(str1, '3'), strrchr(str1, '3'));
 
-  char str21[] = "A b r a\0";
-  char str22[] = "Shvabra  ";
-  ck_assert_int_eq(s21_strspn(str21, str22), strspn(str21, str22));
+  char str2[11] = "0123456789";
+  str2[4] = '\0';
+  ck_assert_ptr_eq(s21_strrchr(str2, '\0'), strrchr(str2, '\0'));
 
-  char str31[] = "A b r a\0";
-  char str32[] = "";
-  ck_assert_int_eq(s21_strspn(str31, str32), strspn(str31, str32));
+  char str3[11] = "qwerty";
+  str3[4] = '\n';
+  ck_assert_ptr_eq(s21_strrchr(str3, '\n'), strrchr(str3, '\n'));
 
-  char str41[] = "A b r a\0";
-  char str42[] = "X u ya bra";
-  ck_assert_int_eq(s21_strspn(str41, str42), strspn(str41, str42));
+  char str4[11] = "zweZrty";
+  ck_assert_ptr_eq(s21_strrchr(str4, '\132'), strrchr(str4, '\132'));
 
-  char str51[] = "A b b r a\0";
-  char str52[] = "  ";
-  ck_assert_int_eq(s21_strspn(str51, str52), strspn(str51, str52));
+  char str5[11] = "zwertz";
+  ck_assert_ptr_eq(s21_strrchr(str5, 'z'), strrchr(str5, 'z'));
+
+  char str6[11] = "zwertz";
+  ck_assert_ptr_eq(s21_strrchr(str6, '\000'), strrchr(str6, '\000'));
+
+  char str7[11] = "";
+  ck_assert_ptr_eq(s21_strrchr(str7, '@'), strrchr(str7, '@'));
 }
 END_TEST
 
@@ -671,16 +670,12 @@ START_TEST(s21_strstr_test) {
 END_TEST
 
 START_TEST(s21_strtok_test) {
-  char str1[25] = "1234567 89 76 5432";
-  char str2[25] = "1234567 89 76 5432";
-  char *r1 = strtok(str1, " ");
-  char *r2 = s21_strtok(str2, " ");
-  while (r1 != NULL && r2 != NULL) {
-    ck_assert_str_eq(r1, r2);
-    r1 = strtok(NULL, " ");
-    r2 = s21_strtok(NULL, " ");
-  }
-  ck_assert_ptr_eq(r1, r2);
+  char str1[] = "abra#kadabr4/";
+  char str2[] = "abra#kadabr4/";
+  char testch[3] = "#/";
+  char *strNULL = S21_NULL;
+  ck_assert_str_eq(s21_strtok(str1, testch), strtok(str2, testch));
+  ck_assert_str_eq(s21_strtok(strNULL, testch), strtok(strNULL, testch));
 }
 END_TEST
 
@@ -717,7 +712,7 @@ END_TEST
 int main() {
   Suite *suite = suite_create("S21_STRING");
   SRunner *srunner = srunner_create(suite);
-  // otheymal block code
+
   TCase *s21_memchr_tcase = tcase_create("s21_memchr_test");
   suite_add_tcase(suite, s21_memchr_tcase);
   tcase_add_test(s21_memchr_tcase, s21_memchr_test);
@@ -737,7 +732,7 @@ int main() {
   TCase *s21_memset_tcase = tcase_create("s21_memset_test");
   suite_add_tcase(suite, s21_memset_tcase);
   tcase_add_test(s21_memset_tcase, s21_memset_test);
-  // Vileplme block code
+
   TCase *s21_strncmp_tcase = tcase_create("s21_strncmp_test");
   suite_add_tcase(suite, s21_strncmp_tcase);
   tcase_add_test(s21_strncmp_tcase, s21_strncmp_test);
@@ -757,7 +752,7 @@ int main() {
   TCase *s21_strncat_tcase = tcase_create("s21_strncat_test");
   suite_add_tcase(suite, s21_strncat_tcase);
   tcase_add_test(s21_strncat_tcase, s21_strncat_test);
-  // Errokele block code
+
   TCase *s21_strcspn_tcase = tcase_create("s21_strcspn_test");
   suite_add_tcase(suite, s21_strcspn_tcase);
   tcase_add_test(s21_strcspn_tcase, s21_strcspn_test);
@@ -778,7 +773,6 @@ int main() {
   suite_add_tcase(suite, s21_strerror_tcase);
   tcase_add_test(s21_strerror_tcase, s21_strerror_test);
 
-  // Zasteran block code
   TCase *s21_strpbrk_tcase = tcase_create("s21_strpbrk_test");
   suite_add_tcase(suite, s21_strpbrk_tcase);
   tcase_add_test(s21_strpbrk_tcase, s21_strpbrk_test);
