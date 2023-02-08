@@ -1,6 +1,5 @@
 #include "./s21_string.h"
 
-// otheymal block code
 void *s21_memchr(const void *str, int c, s21_size_t n) {
   void *rez = S21_NULL;
   int breakFlag = 0;
@@ -19,8 +18,7 @@ int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
   int rez = 0;
   for (s21_size_t i = 0; i < n; i++) {
     rez = *s1 - *s2;
-    if (*s1 != *s2)
-      break;
+    if (*s1 != *s2) break;
     s1++;
     s2++;
   }
@@ -60,7 +58,6 @@ void *s21_memset(void *str, int c, s21_size_t n) {
   return istr;
 }
 
-// Vileplme block code
 int s21_strcmp(const char *str1, const char *str2) {
   unsigned char *str_1 = (unsigned char *)str1;
   unsigned char *str_2 = (unsigned char *)str2;
@@ -132,7 +129,6 @@ char *s21_strncat(char *dest, const char *src, s21_size_t n) {
   return dest;
 }
 
-// Errokele block code
 char *s21_strcpy(char *dest, const char *src) {
   char *cp = dest;
   while (*src) {
@@ -177,8 +173,7 @@ s21_size_t s21_strcspn(const char *str1, const char *str2) {
       }
       j++;
     }
-    if ((int)cnt != -1)
-      cnt++;
+    if ((int)cnt != -1) cnt++;
     i++;
   }
   rez = s21_strlen(str2) ? rez : s21_strlen(str1);
@@ -198,25 +193,11 @@ char *s21_strerror(int errnum) {
     s21_sprintf(rez, "%s%d", "Unknown error ", errnum);
 #endif
 
-    ; // change to s21_spintf
+    ;  // change to s21_spintf
   }
   return rez;
 }
 
-// char *s21_strerror(int errnum) {
-//   char *err[] = ERRORLIST;
-//   static char rez[100];
-//   int max = (*err[0] == 'S') ? 133 : 106;
-//   if (errnum >= 0 && errnum <= max) {
-//     s21_strcpy(rez, err[errnum]);
-//   } else {
-//     s21_sprintf(rez, "%s%d",
-//                 "Unknown error ", errnum);  // change to s21_spintf
-//   }
-//   return rez;
-// }
-
-// Zasteran block code
 char *s21_strpbrk(const char *str1, const char *str2) {
   char *result = S21_NULL;
   int exit_flag = 0;
@@ -233,14 +214,17 @@ char *s21_strpbrk(const char *str1, const char *str2) {
 }
 
 char *s21_strrchr(const char *str, int c) {
+  char tp = c;
   char *result = S21_NULL;
-  while (*str != '\0') {
-    if (*str == (unsigned char)c) {
+  for (; *str != '\0'; str++) {
+    if (*str == tp) {
       result = (char *)str;
     }
-    str++;
   }
-  return result;
+  if (result == S21_NULL) {
+    result = (char *)str;
+  }
+  return *result == c ? (char *)result : S21_NULL;
 }
 
 s21_size_t s21_strspn(const char *str1, const char *str2) {
@@ -261,9 +245,6 @@ s21_size_t s21_strspn(const char *str1, const char *str2) {
         }
       }
     }
-  }
-  if (exit_flag == 0) {
-    result = (ptr1 - str1);
   }
   return result;
 }
