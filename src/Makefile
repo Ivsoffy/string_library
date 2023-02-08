@@ -37,8 +37,13 @@ clean:
 gcov_report:
 	gcc -fprofile-arcs -ftest-coverage test.c s21_string.c s21_sprintf.c -o gcov_report $(TEST_FLAGS)
 	./gcov_report
-	lcov -t "test" -o test.info -c -d .
-	genhtml -o report test.info
+	lcov --no-external --capture --directory . --output-file coverage.info
+	genhtml coverage.info --output-directory out
+ifeq ($(UNAME), Linux)
+	xdg-open out/index.html
+else
+	open -a "Google Chrome" out/index.html
+endif
 
 clang:
 	clang-format -n -style=google *.c *.h
@@ -47,7 +52,7 @@ clang_update:
 	clang-format -i -style=google *.c *.h
 
 leak:
-ifeq ($(UNAME),Darwin)
+ifeq ($(OS),Darwin)
 	CK_FORK=no leaks -atExit -- ./test
 else
 	valgrind --leak-check=full -s --track-origins=yes ./test
