@@ -192,8 +192,6 @@ char *s21_strerror(int errnum) {
 #elif defined(__linux__)
     s21_sprintf(rez, "%s%d", "Unknown error ", errnum);
 #endif
-
-    ;  // change to s21_spintf
   }
   return rez;
 }
